@@ -5,4 +5,6 @@ class Constants {
   static const defaultError =
       'An unexpected error has occurred, please try again...';
   static const actualSession = 'actualSession';
+
+  static const alreadySavedWords = 'alreadySavedWords';
 }

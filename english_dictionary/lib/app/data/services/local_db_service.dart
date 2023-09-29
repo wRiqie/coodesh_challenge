@@ -1,3 +1,4 @@
+import 'package:english_dictionary/app/data/models/paginable_model.dart';
 import 'package:english_dictionary/app/data/models/word_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -28,8 +29,21 @@ class LocalDbService {
     );
   }
 
+  // Generics
   Future<void> _createTables(Database db) async {
     await db.execute(_createTableWord);
+  }
+
+  Future<int> getTableCount(String table, {String? condition}) async {
+    final db = await database;
+    var sql = StringBuffer();
+    sql.write(" SELECT COUNT(0) AS total ");
+    sql.write(" FROM $table ");
+    if (condition != null) sql.write(" $condition ");
+
+    var res = await db.rawQuery(sql.toString());
+
+    return res.isNotEmpty ? res.first['total'] as int : 0;
   }
 
   // Word
@@ -49,9 +63,25 @@ class LocalDbService {
     return db.insert(_wordTable, word.toMap());
   }
 
-  Future<List<WordModel>> getWords(int? limit, int offset) async {
+  Future<void> saveAllWords(List<String> datas) async {
+    final db = await database;
+    var batch = db.batch();
+    for (var data in datas) {
+      batch.insert(_wordTable, WordModel(id: 0, text: data).toMap());
+    }
+    await batch.commit(noResult: true, continueOnError: true);
+  }
+
+  Future<PaginableModel<WordModel>> getWords(int? limit, int? offset) async {
     final db = await database;
     var res = await db.query(_wordTable, limit: limit, offset: offset);
-    return res.isNotEmpty ? res.map((e) => WordModel.fromMap(e)).toList() : [];
+
+    List<WordModel> words =
+        res.isNotEmpty ? res.map((e) => WordModel.fromMap(e)).toList() : [];
+
+    return PaginableModel(
+      items: words,
+      totalItemsCount: await getTableCount(_wordTable),
+    );
   }
 }
