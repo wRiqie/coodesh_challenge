@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import '../../../core/constants.dart';
 import '../../adapters/dio_error_adapter.dart';
 import 'http_service.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class HttpServiceDioImp implements HttpService {
   Dio _dio({
@@ -23,7 +24,7 @@ class HttpServiceDioImp implements HttpService {
       contentType: contentType,
     ));
 
-    _setInterceptors(dio);
+    dio.interceptors.add(_generateCacheConfig());
     return dio;
   }
 
@@ -39,19 +40,11 @@ class HttpServiceDioImp implements HttpService {
     }
   }
 
-  void _setInterceptors(Dio dio) {
-    final interceptors = InterceptorsWrapper(
-      onRequest: (request, handler) {
-        handler.next(request);
-      },
-      onError: (e, handler) {
-        if (kDebugMode) {
-          print(e);
-        }
-        handler.reject(e);
-      },
+  DioCacheInterceptor _generateCacheConfig() {
+    final options = CacheOptions(
+      store: MemCacheStore(),
+      maxStale: const Duration(minutes: 30),
     );
-
-    dio.interceptors.add(interceptors);
+    return DioCacheInterceptor(options: options);
   }
 }

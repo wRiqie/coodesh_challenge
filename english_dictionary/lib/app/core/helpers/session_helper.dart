@@ -16,24 +16,8 @@ class SessionHelper {
     if (sessionString != null) {
       _sessionStore.actualSession =
           SessionModel.fromMap(jsonDecode(sessionString));
-
-      // if (_sessionStore.actualSession?.isFirebase ?? false) {
-      //   await reloadFirebaseUser();
-      // }
     }
   }
-
-  // Future<void> reloadFirebaseUser() async {
-  //   final user = FirebaseAuth.instance.currentUser;
-  //   await user?.reload();
-  //   final reloadedSession = _sessionStore.actualSession?.copyWith(
-  //     name: user?.displayName,
-  //     photoUrl: user?.photoURL,
-  //   );
-  //   if(reloadedSession != null) {
-  //     await saveSession(reloadedSession);
-  //   }
-  // }
 
   Future<void> saveSession(SessionModel session,
       {bool rememberMe = false}) async {
@@ -49,9 +33,6 @@ class SessionHelper {
   SessionModel? get actualSession => _sessionStore.actualSession;
 
   Future<void> signout() async {
-    // if (_sessionStore.actualSession?.isFirebase ?? false) {
-    //   // await FirebaseAuth.instance.signOut();
-    // }
     await _preferencesHelper.remove(Constants.actualSession);
     _sessionStore.actualSession = null;
   }
