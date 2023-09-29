@@ -1,16 +1,24 @@
-class WordModel {
-  String word;
-  String phonetic;
+// Model for local list
 
+class WordModel {
+  final int id;
+  final String text;
   WordModel({
-    required this.word,
-    required this.phonetic,
+    required this.id,
+    required this.text,
   });
 
-  factory WordModel.fromApi(Map<String, dynamic> map) {
+  Map<String, dynamic> toMap() {
+    return {
+      'id': 0,
+      'text': text,
+    };
+  }
+
+  factory WordModel.fromMap(Map<String, dynamic> map) {
     return WordModel(
-      word: map['word'],
-      phonetic: map['phonetic'],
+      id: map['id'],
+      text: map['text'],
     );
   }
 }
