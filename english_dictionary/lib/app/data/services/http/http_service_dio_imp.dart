@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 import '../../../core/constants.dart';
 import '../../adapters/dio_error_adapter.dart';

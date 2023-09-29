@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-// TODO abstração
-// TODO criar classe parecida para Snackbars
 class DialogHelper {
   Future showDecisionDialog(
     BuildContext context, {
