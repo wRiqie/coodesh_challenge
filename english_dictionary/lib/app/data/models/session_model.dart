@@ -2,22 +2,20 @@ class SessionModel {
   final String? name;
   final String? photoUrl;
   final String? email;
-  final String? accessToken;
+  final DateTime? expirationDate;
 
   SessionModel({
     this.name,
     this.photoUrl,
     this.email,
-    this.accessToken,
+    this.expirationDate,
   });
-
-  bool get isFirebase => email == null;
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
       'email': email,
-      'accessToken': accessToken,
+      'expirationDate': expirationDate,
       'photoUrl': photoUrl,
     };
   }
@@ -26,7 +24,7 @@ class SessionModel {
     return SessionModel(
       name: map['name'],
       email: map['email'],
-      accessToken: map['accessToken'],
+      expirationDate: map['expirationDate'],
       photoUrl: map['photoUrl'],
     );
   }
@@ -35,14 +33,14 @@ class SessionModel {
     String? name,
     String? photoUrl,
     String? email,
-    String? accessToken,
+    DateTime? expirationDate,
     String? refreshToken,
   }) {
     return SessionModel(
       name: name ?? this.name,
       photoUrl: photoUrl ?? this.photoUrl,
       email: email ?? this.email,
-      accessToken: accessToken ?? this.accessToken,
+      expirationDate: expirationDate ?? this.expirationDate,
     );
   }
 }
