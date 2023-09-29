@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../core/constants.dart';
@@ -23,14 +22,6 @@ class HttpServiceDioImp implements HttpService {
       headers: headers,
       contentType: contentType,
     ));
-
-    if (kDebugMode) {
-      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
-          (dioClient) {
-        dioClient.badCertificateCallback = (cert, host, port) => true;
-        return dioClient;
-      };
-    }
 
     _setInterceptors(dio);
     return dio;
