@@ -26,9 +26,11 @@ class _SignupScreenState extends State<SignupScreen> with ValidatorsMixin {
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
+  final confirmPassCtrl = TextEditingController();
 
   final isLoading = ValueNotifier(false);
   final obscurePass = ValueNotifier(true);
+  final obscureConfPass = ValueNotifier(true);
 
   @override
   void dispose() {
@@ -38,6 +40,7 @@ class _SignupScreenState extends State<SignupScreen> with ValidatorsMixin {
 
     isLoading.dispose();
     obscurePass.dispose();
+    obscureConfPass.dispose();
     super.dispose();
   }
 
@@ -129,6 +132,40 @@ class _SignupScreenState extends State<SignupScreen> with ValidatorsMixin {
                         );
                       },
                     ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    ValueListenableBuilder(
+                      valueListenable: obscureConfPass,
+                      builder: (context, value, child) {
+                        return TitleWrapperWidget(
+                          title: 'Confirmar Senha',
+                          child: TextFormField(
+                            controller: confirmPassCtrl,
+                            obscureText: value,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.key),
+                              suffixIcon: IconButton(
+                                icon: value
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
+                                onPressed: () {
+                                  obscureConfPass.value =
+                                      !obscureConfPass.value;
+                                },
+                              ),
+                              hintText: 'Re-enter the password',
+                            ),
+                            textInputAction: TextInputAction.send,
+                            onFieldSubmitted: (_) => _signup(),
+                            validator: (value) => combine([
+                              () => isNotEmpty(value),
+                              () => isValidPassword(value),
+                            ]),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -150,6 +187,10 @@ class _SignupScreenState extends State<SignupScreen> with ValidatorsMixin {
 
   void _signup() async {
     if (!(formKey.currentState?.validate() ?? false)) return;
+    if (passwordCtrl.text != confirmPassCtrl.text) {
+      AlertSnackbar(context, message: 'The passwords don\'t match');
+      return;
+    }
 
     isLoading.value = true;
     var registerInfo = RegisterModel(

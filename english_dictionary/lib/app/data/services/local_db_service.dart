@@ -1,3 +1,4 @@
+import 'package:english_dictionary/app/data/models/favorite_model.dart';
 import 'package:english_dictionary/app/data/models/paginable_model.dart';
 import 'package:english_dictionary/app/data/models/word_model.dart';
 import 'package:path/path.dart';
@@ -32,6 +33,7 @@ class LocalDbService {
   // Generics
   Future<void> _createTables(Database db) async {
     await db.execute(_createTableWord);
+    await db.execute(_createTableFavorite);
   }
 
   Future<int> getTableCount(String table, {String? condition}) async {
@@ -50,13 +52,11 @@ class LocalDbService {
   static const _wordTable = 'word';
   static const _wordId = 'id';
   static const _wordText = 'text';
-  static const _wordIsFavorited = 'isFavorited';
 
   static const _createTableWord = """
     CREATE TABLE IF NOT EXISTS $_wordTable(
       $_wordId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      $_wordText TEXT,
-      $_wordIsFavorited INTEGER
+      $_wordText TEXT
     );
   """;
 
@@ -71,28 +71,51 @@ class LocalDbService {
     await batch.commit(noResult: true, continueOnError: true);
   }
 
-  Future<int> updateWord(WordModel word) async {
+  // Future<int> updateWord(WordModel word) async {
+  //   final db = await database;
+  //   var sql = StringBuffer();
+  //   sql.write(" UPDATE word SET text = '${word.text}', ");
+  //   sql.write(" isFavorited = ${word.isFavorited ? 1 : 0} ");
+  //   sql.write(" WHERE $_wordId = ${word.id} ");
+
+  //   return db.rawUpdate(sql.toString());
+  // }
+
+  /*
+    SELECT
+    $_wordTable.$_wordId,
+    $_wordTable.$_wordText,
+    CASE
+      WHEN $_favoriteTable.$_favoriteId IS NOT NULL THEN 1
+      ELSE 0
+    END AS isFavorited
+  FROM $_wordTable
+  LEFT JOIN $_favoriteTable ON $_wordTable.$_wordId = $_favoriteTable.$_favoriteWordId;
+  */
+
+  Future<PaginableModel<WordModel>> getWords(String query, int? limit,
+      int? offset, bool onlyFavorited, String userId) async {
     final db = await database;
-    var sql = StringBuffer();
-    sql.write(" UPDATE word SET text = '${word.text}', ");
-    sql.write(" isFavorited = ${word.isFavorited ? 1 : 0} ");
-    sql.write(" WHERE $_wordId = ${word.id} ");
-
-    return db.rawUpdate(sql.toString());
-  }
-
-  Future<PaginableModel<WordModel>> getWords(
-      String query, int? limit, int? offset, bool onlyFavorited) async {
-    final db = await database;
 
     var sql = StringBuffer();
-    sql.write(" SELECT * FROM $_wordTable ");
+    sql.write(" SELECT WRD.$_wordId, ");
+    sql.write(" WRD.$_wordText, ");
+    sql.write(
+        " (CASE WHEN FAV.$_favoriteId IS NOT NULL THEN 1 ELSE 0 END) AS isFavorited ");
+    sql.write(" FROM $_wordTable WRD ");
+    sql.write(
+        " ${onlyFavorited ? 'INNER JOIN' : 'LEFT JOIN'} $_favoriteTable FAV ");
+    sql.write(" ON FAV.$_favoriteWordId = WRD.$_wordId ");
+    sql.write(" AND FAV.$_favoriteUserId = '$userId' ");
     var operation = 'WHERE';
     if (query.trim().isNotEmpty) {
-      sql.write(" $operation $_wordText LIKE '$query%' ");
+      sql.write(" $operation WRD.$_wordText LIKE '$query%' ");
       operation = 'AND';
     }
-    if (onlyFavorited) sql.write(" $operation $_wordIsFavorited = 1 ");
+    if (onlyFavorited) {
+      sql.write(" $operation FAV.$_favoriteUserId = '$userId' ");
+      operation = 'AND';
+    }
     sql.write(" LIMIT $limit ");
     sql.write(" OFFSET $offset ");
 
@@ -105,5 +128,37 @@ class LocalDbService {
       items: words,
       totalItemsCount: await getTableCount(_wordTable),
     );
+  }
+
+  // Favorite
+  static const _favoriteTable = 'favorite';
+  static const _favoriteId = 'id';
+  static const _favoriteUserId = 'userId';
+  static const _favoriteWordId = 'wordId';
+
+  static const _createTableFavorite = """
+    CREATE TABLE IF NOT EXISTS $_favoriteTable(
+      $_favoriteId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      $_favoriteUserId TEXT,
+      $_favoriteWordId INTEGER
+    );
+  """;
+
+  Future<void> saveFavorite(FavoriteModel favorite) async {
+    final db = await database;
+
+    var sql = StringBuffer();
+    sql.write(
+        " INSERT INTO $_favoriteTable($_favoriteUserId, $_favoriteWordId) ");
+    sql.write(" VALUES ('${favorite.userId}', ${favorite.wordId}) ");
+
+    await db.rawInsert(sql.toString());
+  }
+
+  Future<void> deleteFavorite(int wordId, String userId) async {
+    final db = await database;
+    await db.delete(_favoriteTable,
+        where: '$_favoriteWordId = ? AND $_favoriteUserId = ?',
+        whereArgs: [wordId, userId]);
   }
 }

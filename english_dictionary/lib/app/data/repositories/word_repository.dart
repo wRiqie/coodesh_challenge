@@ -7,15 +7,16 @@ class WordRepository {
 
   WordRepository(this._wordDataSource);
 
-  Future<void> updateWord(WordModel word) {
-    return _wordDataSource.updateWord(word);
-  }
+  // Future<void> updateWord(WordModel word) {
+  //   return _wordDataSource.updateWord(word);
+  // }
 
   Future<PaginableModel<WordModel>> getWords(
       {String query = '',
       int? limit,
       int? offset,
-      bool onlyFavorited = false}) {
-    return _wordDataSource.getWords(query, limit, offset, onlyFavorited);
+      bool onlyFavorited = false,
+      required String userId}) {
+    return _wordDataSource.getWords(query, limit, offset, userId);
   }
 }

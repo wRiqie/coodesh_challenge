@@ -55,8 +55,8 @@ class SuccessSnackbar extends _BaseSnackbar {
           context,
           title: title,
           message: message,
-          backgroundColor: const Color.fromARGB(255, 156, 156, 156),
-          textColor: const Color(0xFF1E1E1E),
+          backgroundColor: const Color.fromARGB(255, 102, 140, 99),
+          textColor: const Color.fromARGB(255, 255, 255, 255),
           icon: icon,
         );
 }
@@ -72,7 +72,7 @@ class AlertSnackbar extends _BaseSnackbar {
           title: title,
           message: message,
           backgroundColor: Colors.orange,
-          textColor: const Color(0xFF1E1E1E),
+          textColor: const Color.fromARGB(255, 255, 255, 255),
           icon: icon,
         );
 }

@@ -14,7 +14,6 @@ class WordModel {
     return {
       'id': id,
       'text': text,
-      'isFavorited': isFavorited ? 1 : 0,
     };
   }
 

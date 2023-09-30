@@ -1,7 +1,10 @@
 import 'package:english_dictionary/app/core/assets.dart';
 import 'package:english_dictionary/app/core/extensions.dart';
+import 'package:english_dictionary/app/core/helpers/session_helper.dart';
+import 'package:english_dictionary/app/data/models/favorite_model.dart';
 import 'package:english_dictionary/app/data/models/paginable_model.dart';
 import 'package:english_dictionary/app/data/models/word_model.dart';
+import 'package:english_dictionary/app/data/repositories/favorite_repository.dart';
 import 'package:english_dictionary/app/data/repositories/word_repository.dart';
 import 'package:english_dictionary/app/ui/widgets/search_field_widget.dart';
 import 'package:english_dictionary/app/ui/widgets/word_tile_widget.dart';
@@ -18,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final wordRepository = GetIt.I<WordRepository>();
+  final favoriteRepository = GetIt.I<FavoriteRepository>();
+  final sessionHelper = GetIt.I<SessionHelper>();
 
   final scrollController = ScrollController();
 
@@ -170,6 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
       query: searchCtrl.text.toLowerCase(),
       limit: 14,
       offset: words.length,
+      userId: sessionHelper.actualSession?.id ?? '',
     );
     setState(() {
       words.items.addAll(response.items);
@@ -179,10 +185,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> onFavorite(WordModel word) async {
+    if (word.isFavorited) {
+      var userId = sessionHelper.actualSession?.id;
+      await favoriteRepository.deleteFavoriteByWordIdAndUserId(
+          word.id, userId ?? '');
+    } else {
+      final favorite = FavoriteModel(
+        userId: sessionHelper.actualSession?.id,
+        wordId: word.id,
+      );
+
+      await favoriteRepository.saveFavorite(favorite);
+    }
+
     setState(() {
       word.isFavorited = !word.isFavorited;
     });
-
-    await wordRepository.updateWord(word);
   }
 }
