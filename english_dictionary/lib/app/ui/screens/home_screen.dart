@@ -65,48 +65,54 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? ListView(
                           controller: scrollController,
                           children: words.items.map((e) {
-                            return WordTileWidget(word: e.text);
+                            return WordTileWidget(
+                              word: e,
+                              onFavorite: () => onFavorite(e),
+                            );
                           }).toList(),
                         )
-                      : Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  height: MediaQuery.of(context).width * .35,
-                                  child: SvgPicture.asset(Assets.empty)),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                    text:
-                                        'No words found, try searching for other terms like ',
-                                    style: TextStyle(
-                                      color: colorScheme.onBackground,
-                                      fontSize: 14,
-                                      fontFamily: 'Inter',
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: '"Hello"',
+                      : !isLoading.value
+                          ? Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).width * .35,
+                                      child: SvgPicture.asset(Assets.empty)),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                        text:
+                                            'No words found, try searching for other terms like ',
                                         style: TextStyle(
-                                            color: colorScheme.primary),
-                                      ),
-                                      const TextSpan(
-                                        text: ' or ',
-                                      ),
-                                      TextSpan(
-                                        text: '"Work"',
-                                        style: TextStyle(
-                                            color: colorScheme.primary),
-                                      ),
-                                    ]),
+                                          color: colorScheme.onBackground,
+                                          fontSize: 14,
+                                          fontFamily: 'Inter',
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: '"Hello"',
+                                            style: TextStyle(
+                                                color: colorScheme.primary),
+                                          ),
+                                          const TextSpan(
+                                            text: ' or ',
+                                          ),
+                                          TextSpan(
+                                            text: '"Work"',
+                                            style: TextStyle(
+                                                color: colorScheme.primary),
+                                          ),
+                                        ]),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            )
+                          : Container(),
                 ),
                 ValueListenableBuilder(
                   valueListenable: loadingMore,
@@ -170,5 +176,13 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     words.totalItemsCount = response.totalItemsCount;
     isLoading.value = false;
+  }
+
+  Future<void> onFavorite(WordModel word) async {
+    setState(() {
+      word.isFavorited = !word.isFavorited;
+    });
+
+    await wordRepository.updateWord(word);
   }
 }

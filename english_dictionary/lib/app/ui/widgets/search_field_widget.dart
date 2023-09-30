@@ -16,18 +16,17 @@ class SearchFieldWidget extends StatefulWidget {
 }
 
 class _SearchFieldWidgetState extends State<SearchFieldWidget> {
-  FocusNode searchNode = FocusNode();
+  bool isNotEmpty = false;
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    searchNode.addListener(() => setState(() {}));
+    widget.controller.addListener(searchListener);
   }
 
   @override
   void dispose() {
-    searchNode.dispose();
     timer?.cancel();
     super.dispose();
   }
@@ -38,7 +37,6 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
 
     return TextField(
       controller: widget.controller,
-      focusNode: searchNode,
       onChanged: (value) {
         timer?.cancel();
         timer = Timer(const Duration(milliseconds: 800), () {
@@ -56,8 +54,28 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
           borderSide: BorderSide.none,
         ),
         prefixIcon: const Icon(Icons.search),
+        suffixIcon: isNotEmpty
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    widget.controller.clear();
+                  });
+                  if (widget.onSearch != null) widget.onSearch!();
+                },
+                icon: const Icon(Icons.clear),
+              )
+            : null,
         hintText: 'Search for...',
       ),
     );
+  }
+
+  void searchListener() {
+    if ((isNotEmpty && widget.controller.text.trim().isEmpty) ||
+        (!isNotEmpty && widget.controller.text.trim().isNotEmpty)) {
+      setState(() {
+        isNotEmpty = !isNotEmpty;
+      });
+    }
   }
 }

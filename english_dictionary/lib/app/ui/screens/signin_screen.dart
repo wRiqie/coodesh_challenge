@@ -67,7 +67,7 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
                           height: 20,
                         ),
                         Text(
-                          'Seja bem vindo',
+                          'Welcome',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: colorScheme.primary,
@@ -76,15 +76,15 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         const Text(
-                          'Para entrar no app, por favor informe suas credenciais',
+                          'To enter the app, please enter your credentials',
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Color(0xFF333333)),
                         ),
                         const SizedBox(
-                          height: 12,
+                          height: 16,
                         ),
                         Form(
                           key: formKey,
@@ -155,7 +155,7 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
                                     ),
                                     GestureDetector(
                                         onTap: _toggleRememberMe,
-                                        child: const Text('Lembre-se de mim')),
+                                        child: const Text('Remember me')),
                                   ],
                                 );
                               },
@@ -163,7 +163,7 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
                             TextButton(
                               onPressed: () {},
                               child: Text(
-                                'Esqueceu a senha?',
+                                'Forgot password?',
                                 style: TextStyle(
                                   color: colorScheme.primary,
                                 ),
@@ -179,7 +179,7 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
                           child: ElevatedButton(
                             onPressed: _signin,
                             child: const Text(
-                              'Entrar',
+                              'Enter',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
@@ -196,8 +196,8 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
                             onPressed: _signup,
                             style: ButtonStyle(
                               elevation: const MaterialStatePropertyAll(0),
-                              backgroundColor: MaterialStatePropertyAll(
-                                  colorScheme.background),
+                              backgroundColor:
+                                  MaterialStatePropertyAll(colorScheme.surface),
                               shape: MaterialStatePropertyAll(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(6),
@@ -209,7 +209,7 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
                               ),
                             ),
                             child: Text(
-                              'Cadastre-se agora mesmo',
+                              'Register now',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.normal,
@@ -255,13 +255,13 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
         isLoading.value = false;
 
         if (context.mounted) {
-          Navigator.pushReplacementNamed(context, AppRoutes.home);
+          Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
         }
       } else {
         if (context.mounted) {
           ErrorSnackbar(
             context,
-            message: result.error?.message ?? 'Ocorreu um erro inesperado',
+            message: result.error?.message,
           );
         }
       }

@@ -51,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: signOut,
             icon: const Icon(Icons.exit_to_app),
           ),
         ],

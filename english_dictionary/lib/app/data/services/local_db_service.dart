@@ -50,18 +50,15 @@ class LocalDbService {
   static const _wordTable = 'word';
   static const _wordId = 'id';
   static const _wordText = 'text';
+  static const _wordIsFavorited = 'isFavorited';
 
   static const _createTableWord = """
     CREATE TABLE IF NOT EXISTS $_wordTable(
       $_wordId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      $_wordText TEXT
+      $_wordText TEXT,
+      $_wordIsFavorited INTEGER
     );
   """;
-
-  Future<int> saveWord(WordModel word) async {
-    final db = await database;
-    return db.insert(_wordTable, word.toMap());
-  }
 
   Future<void> saveAllWords(List<String> datas) async {
     final db = await database;
@@ -74,15 +71,28 @@ class LocalDbService {
     await batch.commit(noResult: true, continueOnError: true);
   }
 
+  Future<int> updateWord(WordModel word) async {
+    final db = await database;
+    var sql = StringBuffer();
+    sql.write(" UPDATE word SET text = '${word.text}', ");
+    sql.write(" isFavorited = ${word.isFavorited ? 1 : 0} ");
+    sql.write(" WHERE $_wordId = ${word.id} ");
+
+    return db.rawUpdate(sql.toString());
+  }
+
   Future<PaginableModel<WordModel>> getWords(
-      String query, int? limit, int? offset) async {
+      String query, int? limit, int? offset, bool onlyFavorited) async {
     final db = await database;
 
     var sql = StringBuffer();
     sql.write(" SELECT * FROM $_wordTable ");
+    var operation = 'WHERE';
     if (query.trim().isNotEmpty) {
-      sql.write(" WHERE $_wordText LIKE '$query%' ");
+      sql.write(" $operation $_wordText LIKE '$query%' ");
+      operation = 'AND';
     }
+    if (onlyFavorited) sql.write(" $operation $_wordIsFavorited = 1 ");
     sql.write(" LIMIT $limit ");
     sql.write(" OFFSET $offset ");
 

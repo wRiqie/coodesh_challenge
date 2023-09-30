@@ -1,7 +1,8 @@
+import 'package:english_dictionary/app/data/models/word_model.dart';
 import 'package:flutter/material.dart';
 
 class WordTileWidget extends StatelessWidget {
-  final String word;
+  final WordModel word;
   final VoidCallback? onFavorite;
   final VoidCallback? onDelete;
 
@@ -29,7 +30,7 @@ class WordTileWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(word),
+          Text(word.text),
           Row(
             children: [
               Visibility(
@@ -48,7 +49,7 @@ class WordTileWidget extends StatelessWidget {
               GestureDetector(
                 onTap: onFavorite,
                 child: Icon(
-                  Icons.favorite_outline,
+                  word.isFavorited ? Icons.favorite : Icons.favorite_outline,
                   color: colorScheme.primary,
                 ),
               ),

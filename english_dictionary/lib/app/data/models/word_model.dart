@@ -1,17 +1,20 @@
 // Model for local list
-
 class WordModel {
   final int id;
   final String text;
+  bool isFavorited;
+
   WordModel({
     required this.id,
     required this.text,
+    this.isFavorited = false,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': 0,
+      'id': id,
       'text': text,
+      'isFavorited': isFavorited ? 1 : 0,
     };
   }
 
@@ -19,6 +22,7 @@ class WordModel {
     return WordModel(
       id: map['id'],
       text: map['text'],
+      isFavorited: map['isFavorited'] == 1,
     );
   }
 }
