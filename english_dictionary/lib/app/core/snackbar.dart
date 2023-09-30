@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:english_dictionary/app/core/constants.dart';
 import 'package:flutter/material.dart';
 
 abstract class _BaseSnackbar {
@@ -79,13 +80,13 @@ class AlertSnackbar extends _BaseSnackbar {
 class ErrorSnackbar extends _BaseSnackbar {
   ErrorSnackbar(
     BuildContext context, {
-    required String message,
+    String? message,
     String? title,
     Widget? icon,
   }) : super(
           context,
           title: title,
-          message: message,
+          message: message ?? Constants.defaultError,
           backgroundColor: const Color(0xFFF64343),
           textColor: const Color(0xFFFCFCFC),
           icon: icon,

@@ -11,7 +11,7 @@ class AuthDataSourceFirebaseImp implements AuthDataSource {
   AuthDataSourceFirebaseImp(this._firebaseAuth);
 
   @override
-  Future<SessionModel> signin(String email, String password) async {
+  Future<SessionModel> signIn(String email, String password) async {
     try {
       var response = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
@@ -24,17 +24,17 @@ class AuthDataSourceFirebaseImp implements AuthDataSource {
         photoUrl: response.user?.photoURL,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
+      if (e.code == 'ERROR_USER_NOT_FOUND') {
         throw ErrorModel('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        throw ErrorModel('Wrong password provided for that user.');
+      } else if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+        throw ErrorModel('Incorrect email and/or password');
       }
       throw ErrorModel(Constants.defaultError);
     }
   }
 
   @override
-  Future<SessionModel> signup(RegisterModel registerInfo) async {
+  Future<SessionModel> signUp(RegisterModel registerInfo) async {
     try {
       var response = await _firebaseAuth.createUserWithEmailAndPassword(
         email: registerInfo.email,
@@ -67,7 +67,7 @@ class AuthDataSourceFirebaseImp implements AuthDataSource {
   }
 
   @override
-  Future<void> signout() {
+  Future<void> signOut() {
     return _firebaseAuth.signOut();
   }
 }

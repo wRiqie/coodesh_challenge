@@ -28,6 +28,11 @@ class PaginableModel<T> {
 
   bool get isEmpty => items.isEmpty;
 
+  void clear() {
+    items.clear();
+    totalItemsCount = 0;
+  }
+
   PaginableModel<T> copyWith({
     List<T>? items,
     int? totalItemsCount,

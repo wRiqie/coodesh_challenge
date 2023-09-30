@@ -32,7 +32,7 @@ class SessionHelper {
 
   SessionModel? get actualSession => _sessionStore.actualSession;
 
-  Future<void> signout() async {
+  Future<void> signOut() async {
     await _preferencesHelper.remove(Constants.actualSession);
     _sessionStore.actualSession = null;
   }

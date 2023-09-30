@@ -15,7 +15,7 @@ class AppWidget extends StatelessWidget {
       // home: const SplashScreen()
       theme: appTheme,
       routes: AppPages.values,
-      initialRoute: AppRoutes.signin,
+      initialRoute: AppRoutes.splash,
     );
   }
 }

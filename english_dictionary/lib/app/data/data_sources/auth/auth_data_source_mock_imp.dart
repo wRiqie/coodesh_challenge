@@ -5,14 +5,14 @@ import 'auth_data_source.dart';
 
 class AuthDataSourceMockImp implements AuthDataSource {
   @override
-  Future<SessionModel> signin(String email, String password) {
+  Future<SessionModel> signIn(String email, String password) {
     return Future.delayed(const Duration(seconds: 2), () {
       return _sessionMock;
     });
   }
 
   @override
-  Future<SessionModel> signup(RegisterModel registerInfo) {
+  Future<SessionModel> signUp(RegisterModel registerInfo) {
     return Future.delayed(const Duration(seconds: 2), () {
       return _sessionMock;
     });
@@ -26,7 +26,7 @@ class AuthDataSourceMockImp implements AuthDataSource {
   );
 
   @override
-  Future<void> signout() {
+  Future<void> signOut() {
     return Future.value();
   }
 }
