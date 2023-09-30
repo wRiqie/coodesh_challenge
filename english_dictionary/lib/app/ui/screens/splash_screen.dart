@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:english_dictionary/app/core/helpers/session_helper.dart';
 import 'package:english_dictionary/app/routes/app_routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -36,13 +37,18 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void _handleDone() {
+  void _handleDone() async {
     // checar se usuário está logado
     var actualSession = sessionHelper.actualSession;
     if (actualSession != null) {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+      Navigator.of(context).pushReplacementNamed(AppRoutes.dashboard);
     } else {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.signin);
+      if (FirebaseAuth.instance.currentUser != null) {
+        await FirebaseAuth.instance.signOut();
+      }
+      if (context.mounted) {
+        Navigator.of(context).pushReplacementNamed(AppRoutes.signin);
+      }
     }
   }
 }

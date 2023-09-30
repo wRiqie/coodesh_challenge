@@ -1,3 +1,6 @@
+import 'package:english_dictionary/app/ui/screens/dashboard_screen.dart';
+import 'package:english_dictionary/app/ui/screens/favorites_screen.dart';
+import 'package:english_dictionary/app/ui/screens/history_screen.dart';
 import 'package:english_dictionary/app/ui/screens/home_screen.dart';
 import 'package:english_dictionary/app/ui/screens/signin_screen.dart';
 import 'package:english_dictionary/app/ui/screens/signup_screen.dart';
@@ -11,6 +14,9 @@ class AppPages {
     AppRoutes.splash: (context) => const SplashScreen(),
     AppRoutes.signin: (context) => const SigninScreen(),
     AppRoutes.signup: (context) => const SignupScreen(),
+    AppRoutes.dashboard: (context) => const DashboardScreen(),
     AppRoutes.home: (context) => const HomeScreen(),
+    AppRoutes.favorites: (context) => const FavoritesScreen(),
+    AppRoutes.history: (context) => const HistoryScreen(),
   };
 }

@@ -1,10 +1,6 @@
-import 'package:english_dictionary/app/core/helpers/dialog_helper.dart';
-import 'package:english_dictionary/app/core/helpers/session_helper.dart';
 import 'package:english_dictionary/app/data/models/paginable_model.dart';
 import 'package:english_dictionary/app/data/models/word_model.dart';
-import 'package:english_dictionary/app/data/repositories/auth_repository.dart';
 import 'package:english_dictionary/app/data/repositories/word_repository.dart';
-import 'package:english_dictionary/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -16,9 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final authRepository = GetIt.I<AuthRepository>();
-  final sessionHelper = GetIt.I<SessionHelper>();
-
   final wordRepository = GetIt.I<WordRepository>();
 
   final scrollController = ScrollController();
@@ -47,15 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Stack(
       children: [
         Scaffold(
-          appBar: AppBar(
-            title: const Text('Home'),
-            actions: [
-              IconButton(
-                onPressed: signOut,
-                icon: const Icon(Icons.exit_to_app),
-              ),
-            ],
-          ),
           body: Column(
             children: [
               Expanded(
@@ -130,27 +114,5 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     words.totalItemsCount = response.totalItemsCount;
     isLoading.value = false;
-  }
-
-  void signOut() async {
-    DialogHelper().showDecisionDialog(
-      context,
-      title: 'Encerrar sessão',
-      content: 'Tem certeza que deseja encerrar sua sessão?',
-      onConfirm: () async {
-        _clearSession();
-        if (context.mounted) {
-          Navigator.pushReplacementNamed(
-            context,
-            AppRoutes.signin,
-          );
-        }
-      },
-    );
-  }
-
-  Future<void> _clearSession() async {
-    await authRepository.signOut();
-    await sessionHelper.signOut();
   }
 }

@@ -3,12 +3,16 @@ import 'color_schemes.dart';
 
 final appTheme = ThemeData(
   colorScheme: lightColorScheme,
+  fontFamily: 'Inter',
   appBarTheme: AppBarTheme(
     centerTitle: true,
     titleTextStyle: TextStyle(
       fontSize: 16,
       color: lightColorScheme.onPrimary,
     ),
+  ),
+  checkboxTheme: CheckboxThemeData(
+    fillColor: MaterialStatePropertyAll(lightColorScheme.primary),
   ),
   snackBarTheme: SnackBarThemeData(
     backgroundColor: const Color.fromARGB(255, 202, 23, 23),
