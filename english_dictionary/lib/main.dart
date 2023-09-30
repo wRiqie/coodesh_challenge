@@ -7,8 +7,15 @@ import 'app/core/helpers/preferences_helper.dart';
 import 'app/core/helpers/session_helper.dart';
 import 'app/core/inject.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   Inject.init();
 
