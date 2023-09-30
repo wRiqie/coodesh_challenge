@@ -65,9 +65,11 @@ class LocalDbService {
 
   Future<void> saveAllWords(List<String> datas) async {
     final db = await database;
+    // Removing previous data to avoid duplication
+    await db.delete(_wordTable);
     var batch = db.batch();
     for (var data in datas) {
-      batch.insert(_wordTable, {'id': 0, 'text': data});
+      batch.rawInsert("INSERT INTO $_wordTable($_wordText) VALUES('$data')");
     }
     await batch.commit(noResult: true, continueOnError: true);
   }

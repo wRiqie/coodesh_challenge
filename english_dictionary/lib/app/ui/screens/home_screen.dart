@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(scrollListener);
     getWords(true);
   }
 
@@ -48,9 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
             valueListenable: words,
             builder: (context, value, child) {
               return SingleChildScrollView(
+                controller: scrollController,
                 child: Column(
                   children: words.value.items
-                      .map((e) => Text('${e.id} - ${e.text}'))
+                      .map((e) => ListTile(title: Text('${e.id} - ${e.text}')))
                       .toList(),
                 ),
               );
@@ -95,7 +97,8 @@ class _HomeScreenState extends State<HomeScreen> {
       offset: words.value.length,
     );
     if (clear) words.value = PaginableModel.clean();
-    words.value = response;
+    words.value.items.addAll(response.items);
+    words.value.totalItemsCount = response.totalItemsCount;
     isLoading.value = false;
   }
 }

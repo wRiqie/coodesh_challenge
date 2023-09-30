@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.english_dictionary">
+    package="com.wriqie.english_dictionary">
    <application
-        android:label="english_dictionary"
+        android:label="EnglishD"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
