@@ -1,46 +1,45 @@
 class SessionModel {
+  final String? id;
   final String? name;
   final String? photoUrl;
   final String? email;
-  final DateTime? expirationDate;
 
   SessionModel({
+    this.id,
     this.name,
     this.photoUrl,
     this.email,
-    this.expirationDate,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'email': email,
-      'expirationDate': expirationDate,
       'photoUrl': photoUrl,
     };
   }
 
   factory SessionModel.fromMap(Map<String, dynamic> map) {
     return SessionModel(
+      id: map['id'],
       name: map['name'],
       email: map['email'],
-      expirationDate: map['expirationDate'],
       photoUrl: map['photoUrl'],
     );
   }
 
   SessionModel copyWith({
+    String? id,
     String? name,
     String? photoUrl,
     String? email,
-    DateTime? expirationDate,
-    String? refreshToken,
   }) {
     return SessionModel(
+      id: id ?? this.id,
       name: name ?? this.name,
       photoUrl: photoUrl ?? this.photoUrl,
       email: email ?? this.email,
-      expirationDate: expirationDate ?? this.expirationDate,
     );
   }
 }
