@@ -30,3 +30,5 @@ doc/api/
 
 android/app/google-services.json
 ios/Runner/GoogleService-info.plist
+
+lib/app/firebase_options.dart
