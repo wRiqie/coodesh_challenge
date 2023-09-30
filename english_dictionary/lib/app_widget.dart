@@ -1,3 +1,5 @@
+import 'package:english_dictionary/app/routes/app_pages.dart';
+import 'package:english_dictionary/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class AppWidget extends StatelessWidget {
@@ -13,7 +15,8 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: AppPages.values,
+      initialRoute: AppRoutes.home,
     );
   }
 }

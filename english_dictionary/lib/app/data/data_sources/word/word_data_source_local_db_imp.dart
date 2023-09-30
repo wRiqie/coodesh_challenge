@@ -23,9 +23,10 @@ class WordDataSourceLocalDbImp implements WordDataSource {
   }
 
   Future<void> _saveJsonWords() async {
-    var datas = JsonHelper.instance.getData('assets/json/words_dictionary.json')
-        as List<String>;
+    var datas =
+        await JsonHelper.instance.getData('assets/json/words_dictionary.json');
 
-    await _localDbService.saveAllWords(datas);
+    await _localDbService.saveAllWords(List<String>.from(datas));
+    await _preferencesHelper.setBool(Constants.alreadySavedWords, true);
   }
 }

@@ -1,7 +1,10 @@
 import 'package:english_dictionary/app/data/data_sources/auth/auth_data_source.dart';
+import 'package:english_dictionary/app/data/data_sources/word/word_data_source.dart';
+import 'package:english_dictionary/app/data/data_sources/word/word_data_source_local_db_imp.dart';
 import 'package:english_dictionary/app/data/data_sources/word_info/word_info_data_source.dart';
 import 'package:english_dictionary/app/data/data_sources/word_info/word_info_data_source_api_imp.dart';
 import 'package:english_dictionary/app/data/repositories/word_info_repository.dart';
+import 'package:english_dictionary/app/data/repositories/word_repository.dart';
 import 'package:english_dictionary/app/data/services/local_db_service.dart';
 import 'package:get_it/get_it.dart';
 import '../data/data_sources/auth/auth_data_source_mock_imp.dart';
@@ -32,11 +35,15 @@ class Inject {
     getIt.registerLazySingleton<LocalDbService>(() => LocalDbService());
 
     // Datasources
+    getIt.registerLazySingleton<AuthDataSource>(() => AuthDataSourceMockImp());
+    getIt.registerLazySingleton<WordDataSource>(
+        () => WordDataSourceLocalDbImp(getIt(), getIt()));
     getIt.registerLazySingleton<WordInfoDataSource>(
         () => WordInfoDataSourceApiImp(getIt()));
-    getIt.registerLazySingleton<AuthDataSource>(() => AuthDataSourceMockImp());
 
     // Repositories
     getIt.registerLazySingleton<WordRepository>(() => WordRepository(getIt()));
+    getIt.registerLazySingleton<WordInfoRepository>(
+        () => WordInfoRepository(getIt()));
   }
 }

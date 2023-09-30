@@ -67,7 +67,7 @@ class LocalDbService {
     final db = await database;
     var batch = db.batch();
     for (var data in datas) {
-      batch.insert(_wordTable, WordModel(id: 0, text: data).toMap());
+      batch.insert(_wordTable, {'id': 0, 'text': data});
     }
     await batch.commit(noResult: true, continueOnError: true);
   }

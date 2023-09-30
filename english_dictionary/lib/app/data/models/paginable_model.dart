@@ -24,7 +24,7 @@ class PaginableModel<T> {
     return items.length >= totalItemsCount;
   }
 
-  int get nextPage => items.length;
+  int get length => items.length;
 
   bool get isEmpty => items.isEmpty;
 
