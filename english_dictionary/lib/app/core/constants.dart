@@ -7,4 +7,8 @@ class Constants {
   static const actualSession = 'actualSession';
 
   static const alreadySavedWords = 'alreadySavedWords';
+
+  // Firebase DOCS
+  static const favoritesCollection = 'Favorites';
+  static const historyCollection = 'History';
 }

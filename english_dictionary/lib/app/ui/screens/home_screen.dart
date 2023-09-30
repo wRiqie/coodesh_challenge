@@ -63,8 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: scrollController,
                   child: Column(
                     children: words.items
-                        .map(
-                            (e) => ListTile(title: Text('${e.id} - ${e.text}')))
+                        .map((e) => ListTile(
+                              title: Text('${e.id} - ${e.text}'),
+                            ))
                         .toList(),
                   ),
                 ),
