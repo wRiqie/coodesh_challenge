@@ -13,13 +13,14 @@ class WordDataSourceLocalDbImp implements WordDataSource {
   WordDataSourceLocalDbImp(this._preferencesHelper, this._localDbService);
 
   @override
-  Future<PaginableModel<WordModel>> getWords(int? limit, int? offset) async {
+  Future<PaginableModel<WordModel>> getWords(
+      String query, int? limit, int? offset) async {
     var alreadySavedWords =
         _preferencesHelper.getBool(Constants.alreadySavedWords);
 
     if (!alreadySavedWords) await _saveJsonWords();
 
-    return _localDbService.getWords(limit, offset);
+    return _localDbService.getWords(query, limit, offset);
   }
 
   Future<void> _saveJsonWords() async {

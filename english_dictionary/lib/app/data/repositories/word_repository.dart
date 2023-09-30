@@ -7,7 +7,8 @@ class WordRepository {
 
   WordRepository(this._wordDataSource);
 
-  Future<PaginableModel<WordModel>> getWords({int? limit, int? offset}) {
-    return _wordDataSource.getWords(limit, offset);
+  Future<PaginableModel<WordModel>> getWords(
+      {String query = '', int? limit, int? offset}) {
+    return _wordDataSource.getWords(query, limit, offset);
   }
 }

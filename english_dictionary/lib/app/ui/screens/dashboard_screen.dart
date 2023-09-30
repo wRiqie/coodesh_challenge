@@ -79,6 +79,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: colorScheme.surface,
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
         onTap: (value) {

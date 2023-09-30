@@ -26,6 +26,7 @@ class PaginableModel<T> {
 
   int get length => items.length;
 
+  bool get isNotEmpty => items.isNotEmpty;
   bool get isEmpty => items.isEmpty;
 
   void clear() {

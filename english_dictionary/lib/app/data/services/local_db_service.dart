@@ -74,9 +74,19 @@ class LocalDbService {
     await batch.commit(noResult: true, continueOnError: true);
   }
 
-  Future<PaginableModel<WordModel>> getWords(int? limit, int? offset) async {
+  Future<PaginableModel<WordModel>> getWords(
+      String query, int? limit, int? offset) async {
     final db = await database;
-    var res = await db.query(_wordTable, limit: limit, offset: offset);
+
+    var sql = StringBuffer();
+    sql.write(" SELECT * FROM $_wordTable ");
+    if (query.trim().isNotEmpty) {
+      sql.write(" WHERE $_wordText LIKE '$query%' ");
+    }
+    sql.write(" LIMIT $limit ");
+    sql.write(" OFFSET $offset ");
+
+    var res = await db.rawQuery(sql.toString());
 
     List<WordModel> words =
         res.isNotEmpty ? res.map((e) => WordModel.fromMap(e)).toList() : [];
