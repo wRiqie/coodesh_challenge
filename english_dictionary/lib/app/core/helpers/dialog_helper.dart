@@ -68,7 +68,7 @@ class DialogHelper {
                         if (onCancel != null) onCancel();
                       },
                       child: Text(
-                        cancelText ?? 'Cancelar',
+                        cancelText ?? 'Cancel',
                         style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.primaryContainer),
@@ -80,7 +80,7 @@ class DialogHelper {
                         if (onConfirm != null) onConfirm();
                       },
                       child: Text(
-                        confirmText ?? 'Confirmar',
+                        confirmText ?? 'Confirm',
                         style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.primaryContainer),

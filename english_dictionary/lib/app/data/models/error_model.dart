@@ -9,10 +9,8 @@ class ErrorModel implements Exception {
   factory ErrorModel.fromApi(DioException exception) {
     try {
       var data = exception.response?.data;
-      var message = data['message'];
-      var resolution = data['resolution'];
 
-      return ErrorModel('$message - $resolution');
+      return ErrorModel(data['title']);
     } catch (e) {
       return ErrorModel(Constants.defaultError);
     }

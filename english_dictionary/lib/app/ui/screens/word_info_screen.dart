@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:english_dictionary/app/core/snackbar.dart';
 import 'package:english_dictionary/app/data/models/word_info_args.dart';
 import 'package:english_dictionary/app/data/models/word_info_model.dart';
@@ -27,6 +28,9 @@ class _WordInfoScreenState extends State<WordInfoScreen> {
   bool get isStart => currentInfo == 0;
   bool get isEnd => currentInfo == wordInfos.length - 1;
 
+  final player = AudioPlayer();
+  bool isPlaying = false;
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +38,18 @@ class _WordInfoScreenState extends State<WordInfoScreen> {
     scheduleMicrotask(() {
       loadWordInfo();
     });
+
+    player.onPlayerComplete.listen((event) {
+      setState(() {
+        isPlaying = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 
   @override
@@ -70,10 +86,12 @@ class _WordInfoScreenState extends State<WordInfoScreen> {
                       decoration: BoxDecoration(
                         color: colorScheme.surface,
                         borderRadius: BorderRadius.circular(6),
-                        // border: Border.all(
-                        //   width: 4,
-                        //   color: colorScheme.primary,
-                        // ),
+                        border: Border.all(
+                          width: 4,
+                          color: isPlaying
+                              ? colorScheme.primary
+                              : Colors.transparent,
+                        ),
                       ),
                       child: Center(
                         child: Row(
@@ -100,11 +118,40 @@ class _WordInfoScreenState extends State<WordInfoScreen> {
                                     color: colorScheme.primary,
                                   ),
                                 ),
-                                Text(
-                                  wordInfo?.phonetic ?? '',
-                                  style: TextStyle(
-                                    color: colorScheme.secondary,
-                                    fontSize: 20,
+                                Visibility(
+                                  visible: wordInfo?.phonetic != null,
+                                  child: Text(
+                                    wordInfo?.phonetic ?? '',
+                                    style: TextStyle(
+                                      color: colorScheme.secondary,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: wordInfo?.audioUrl != null
+                                      ? () {
+                                          playWordAudio();
+                                        }
+                                      : null,
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: wordInfo?.audioUrl != null
+                                          ? colorScheme.primary
+                                          : colorScheme.secondary,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Icon(
+                                      isPlaying
+                                          ? Icons.pause
+                                          : Icons.play_arrow,
+                                      color: colorScheme.onPrimary,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -247,16 +294,37 @@ class _WordInfoScreenState extends State<WordInfoScreen> {
   }
 
   void goToNext() {
+    stopPlayer();
     if (isEnd) return;
     setState(() {
       currentInfo++;
     });
   }
 
+  void stopPlayer() {
+    player.stop();
+    setState(() {
+      isPlaying = false;
+    });
+  }
+
   void backToPrevious() {
+    stopPlayer();
     if (isStart) return;
     setState(() {
       currentInfo--;
     });
+  }
+
+  void playWordAudio() async {
+    if (isPlaying) return;
+
+    var info = wordInfos[currentInfo];
+    if (info.audioUrl != null) {
+      setState(() {
+        isPlaying = true;
+      });
+      player.play(UrlSource(info.audioUrl!));
+    }
   }
 }
