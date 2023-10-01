@@ -2,12 +2,9 @@ import 'dart:async';
 
 import 'package:english_dictionary/app/ui/widgets/empty_placeholder_widget.dart';
 
-import '../../core/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../core/assets.dart';
 import '../../core/helpers/session_helper.dart';
 import '../../core/helpers/word_helper.dart';
 import '../../data/models/paginable_model.dart';
@@ -55,8 +52,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Stack(
       children: [
         Scaffold(
