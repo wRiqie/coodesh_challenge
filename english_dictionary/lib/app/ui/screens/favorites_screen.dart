@@ -178,7 +178,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
     var response = await favoriteRepository.getFavorites(
       query: searchCtrl.text.toLowerCase(),
-      limit: 14,
+      limit: MediaQuery.of(context).size.shortestSide < 600 ? 14 : 20,
       offset: words.length,
       userId: sessionHelper.actualSession?.id ?? '',
     );
