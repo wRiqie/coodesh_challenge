@@ -1,6 +1,4 @@
 import 'package:english_dictionary/app/core/helpers/session_helper.dart';
-import 'package:get_it/get_it.dart';
-
 import '../../data/models/favorite_model.dart';
 import '../../data/models/history_model.dart';
 import '../../data/models/word_model.dart';
