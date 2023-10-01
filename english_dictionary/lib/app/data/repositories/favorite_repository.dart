@@ -18,7 +18,7 @@ class FavoriteRepository {
   }
 
   Future<PaginableModel<WordModel>> getFavorites(
-      String query, int? limit, int? offset, String userId) {
+      {String query = '', int? limit, int? offset, String userId = ''}) {
     return _favoriteDataSource.getFavorites(query, limit, offset, userId);
   }
 }

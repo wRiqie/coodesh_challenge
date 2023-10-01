@@ -113,7 +113,7 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
                                     onFieldSubmitted: (_) => _signin(),
                                     obscureText: !revealText.value,
                                     decoration: InputDecoration(
-                                      hintText: 'Senha',
+                                      hintText: 'Password',
                                       suffixIcon: IconButton(
                                         onPressed: () {
                                           revealText.value = !revealText.value;

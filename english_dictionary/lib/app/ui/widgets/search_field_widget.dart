@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class SearchFieldWidget extends StatefulWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final VoidCallback? onSearch;
   const SearchFieldWidget({
     super.key,
-    required this.controller,
+    this.controller,
     this.onSearch,
   });
 
@@ -22,7 +22,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
   @override
   void initState() {
     super.initState();
-    widget.controller.addListener(searchListener);
+    widget.controller?.addListener(searchListener);
   }
 
   @override
@@ -58,7 +58,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
             ? IconButton(
                 onPressed: () {
                   setState(() {
-                    widget.controller.clear();
+                    widget.controller?.clear();
                   });
                   if (widget.onSearch != null) widget.onSearch!();
                 },
@@ -71,8 +71,8 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
   }
 
   void searchListener() {
-    if ((isNotEmpty && widget.controller.text.trim().isEmpty) ||
-        (!isNotEmpty && widget.controller.text.trim().isNotEmpty)) {
+    if ((isNotEmpty && (widget.controller?.text.trim().isEmpty ?? false)) ||
+        (!isNotEmpty && (widget.controller?.text.trim().isNotEmpty ?? false))) {
       setState(() {
         isNotEmpty = !isNotEmpty;
       });

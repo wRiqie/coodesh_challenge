@@ -67,14 +67,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: words.isNotEmpty
-                      ? ListView(
-                          controller: scrollController,
-                          children: words.items.map((e) {
-                            return WordTileWidget(
-                              word: e,
-                              onFavorite: () => onFavorite(e),
-                            );
-                          }).toList(),
+                      ? RefreshIndicator(
+                          onRefresh: () => getWords(true),
+                          child: ListView(
+                            controller: scrollController,
+                            children: words.items.map((e) {
+                              return WordTileWidget(
+                                word: e,
+                                onFavorite: () => onFavorite(e),
+                              );
+                            }).toList(),
+                          ),
                         )
                       : !isLoading.value
                           ? Center(

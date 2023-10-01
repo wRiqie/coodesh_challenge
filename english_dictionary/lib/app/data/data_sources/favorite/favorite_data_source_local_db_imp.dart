@@ -22,6 +22,6 @@ class FavoriteDataSourceLocalDbImp implements FavoriteDataSource {
   @override
   Future<PaginableModel<WordModel>> getFavorites(
       String query, int? limit, int? offset, String userId) {
-    return _localDbService.getWords(query, limit, offset, false, userId);
+    return _localDbService.getWords(query, limit, offset, true, userId);
   }
 }

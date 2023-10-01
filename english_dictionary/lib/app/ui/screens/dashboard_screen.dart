@@ -43,12 +43,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('English Dictionary'),
-        leading: Container(
-          margin: const EdgeInsets.all(4),
-          child: CircleAvatar(
-            backgroundColor: colorScheme.onPrimary,
-          ),
-        ),
         actions: [
           IconButton(
             onPressed: signOut,
@@ -81,6 +75,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: colorScheme.surface,
         type: BottomNavigationBarType.fixed,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
         currentIndex: currentIndex,
         onTap: (value) {
           setState(() {
