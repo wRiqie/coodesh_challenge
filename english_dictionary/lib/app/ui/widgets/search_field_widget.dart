@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class SearchFieldWidget extends StatefulWidget {
   final TextEditingController? controller;
   final VoidCallback? onSearch;
+  final String? hintText;
   const SearchFieldWidget({
     super.key,
     this.controller,
     this.onSearch,
+    this.hintText,
   });
 
   @override
@@ -65,7 +67,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
                 icon: const Icon(Icons.clear),
               )
             : null,
-        hintText: 'Search for...',
+        hintText: widget.hintText ?? 'Search for...',
       ),
     );
   }

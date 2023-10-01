@@ -1,5 +1,6 @@
 import 'package:english_dictionary/app/core/assets.dart';
 import 'package:english_dictionary/app/core/extensions.dart';
+import 'package:english_dictionary/app/core/helpers/preferences_helper.dart';
 import 'package:english_dictionary/app/core/mixins/validators_mixin.dart';
 import 'package:english_dictionary/app/routes/app_routes.dart';
 import 'package:english_dictionary/app/ui/widgets/loader_widget.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
+import '../../core/constants.dart';
 import '../../core/helpers/session_helper.dart';
 import '../../core/snackbar.dart';
 import '../../data/repositories/auth_repository.dart';
@@ -21,6 +23,7 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
   final authRepository = GetIt.I<AuthRepository>();
+  final preferencesHelper = GetIt.I<PreferencesHelper>();
 
   final formKey = GlobalKey<FormState>();
 
@@ -264,7 +267,12 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
         isLoading.value = false;
 
         if (context.mounted) {
-          Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
+          var alreadySavedWords =
+              preferencesHelper.getBool(Constants.alreadySavedWords);
+
+          alreadySavedWords
+              ? Navigator.pushReplacementNamed(context, AppRoutes.dashboard)
+              : Navigator.pushReplacementNamed(context, AppRoutes.prepare);
         }
       } else {
         if (context.mounted) {

@@ -62,6 +62,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 SearchFieldWidget(
                   controller: searchCtrl,
                   onSearch: () => getWords(true),
+                  hintText: 'Searching for favorites...',
                 ),
                 const SizedBox(
                   height: 20,

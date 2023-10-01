@@ -64,6 +64,7 @@ class LocalDbService {
 
   Future<void> saveAllWords(List<String> datas) async {
     final db = await database;
+
     // Removing previous data to avoid duplication
     await db.delete(_wordTable);
     var batch = db.batch();

@@ -64,6 +64,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 SearchFieldWidget(
                   controller: searchCtrl,
                   onSearch: () => getWords(true),
+                  hintText: 'Searching for history...',
                 ),
                 Visibility(
                   visible: words.isEmpty,

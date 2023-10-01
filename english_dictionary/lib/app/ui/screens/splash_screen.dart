@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:english_dictionary/app/core/constants.dart';
+import 'package:english_dictionary/app/core/helpers/preferences_helper.dart';
 import 'package:english_dictionary/app/core/helpers/session_helper.dart';
 import 'package:english_dictionary/app/routes/app_routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +17,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final sessionHelper = GetIt.I<SessionHelper>();
+  final preferencesHelper = GetIt.I<PreferencesHelper>();
 
   @override
   void initState() {
@@ -40,8 +43,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void _handleDone() async {
     // checar se usuário está logado
     var actualSession = sessionHelper.actualSession;
+    var alreadySavedWords =
+        preferencesHelper.getBool(Constants.alreadySavedWords);
     if (actualSession != null) {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.dashboard);
+      alreadySavedWords
+          ? Navigator.of(context).pushReplacementNamed(AppRoutes.dashboard)
+          : Navigator.of(context).pushReplacementNamed(AppRoutes.prepare);
     } else {
       if (FirebaseAuth.instance.currentUser != null) {
         await FirebaseAuth.instance.signOut();
