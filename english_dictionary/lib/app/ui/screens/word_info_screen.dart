@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:english_dictionary/app/core/helpers/word_helper.dart';
-import 'package:english_dictionary/app/core/snackbar.dart';
-import 'package:english_dictionary/app/data/models/word_info_args.dart';
-import 'package:english_dictionary/app/data/models/word_info_model.dart';
-import 'package:english_dictionary/app/data/models/word_model.dart';
-import 'package:english_dictionary/app/data/repositories/word_info_repository.dart';
-import 'package:english_dictionary/app/ui/widgets/meaning_section_widget.dart';
+import '../../core/helpers/word_helper.dart';
+import '../../core/snackbar.dart';
+import '../../data/models/word_info_args.dart';
+import '../../data/models/word_info_model.dart';
+import '../../data/models/word_model.dart';
+import '../../data/repositories/word_info_repository.dart';
+import '../widgets/meaning_section_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shimmer/shimmer.dart';

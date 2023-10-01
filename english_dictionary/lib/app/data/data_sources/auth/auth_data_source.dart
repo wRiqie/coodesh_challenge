@@ -1,5 +1,5 @@
-import 'package:english_dictionary/app/data/models/register_model.dart';
-import 'package:english_dictionary/app/data/models/session_model.dart';
+import '../../models/register_model.dart';
+import '../../models/session_model.dart';
 
 abstract class AuthDataSource {
   Future<SessionModel> signIn(String email, String password);

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:english_dictionary/app/core/constants.dart';
+
+import '../../core/constants.dart';
 
 class ErrorModel implements Exception {
   final String message;

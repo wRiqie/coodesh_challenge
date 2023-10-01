@@ -1,8 +1,8 @@
-import 'package:english_dictionary/app/core/helpers/json_helper.dart';
-import 'package:english_dictionary/app/data/data_sources/word/word_data_source.dart';
-import 'package:english_dictionary/app/data/models/word_model.dart';
-import 'package:english_dictionary/app/data/models/paginable_model.dart';
-import 'package:english_dictionary/app/data/services/local_db_service.dart';
+import '../../../core/helpers/json_helper.dart';
+import 'word_data_source.dart';
+import '../../models/word_model.dart';
+import '../../models/paginable_model.dart';
+import '../../services/local_db_service.dart';
 
 class WordDataSourceLocalDbImp implements WordDataSource {
   final LocalDbService _localDbService;

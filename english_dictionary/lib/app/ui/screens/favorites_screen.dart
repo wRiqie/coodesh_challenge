@@ -1,4 +1,4 @@
-import 'package:english_dictionary/app/core/extensions.dart';
+import '../../core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';

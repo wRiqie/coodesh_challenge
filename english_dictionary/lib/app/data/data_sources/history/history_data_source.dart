@@ -1,5 +1,5 @@
-import 'package:english_dictionary/app/data/models/paginable_model.dart';
-import 'package:english_dictionary/app/data/models/word_model.dart';
+import '../../models/paginable_model.dart';
+import '../../models/word_model.dart';
 
 import '../../models/history_model.dart';
 

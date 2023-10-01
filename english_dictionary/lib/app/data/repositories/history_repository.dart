@@ -1,5 +1,4 @@
-import 'package:english_dictionary/app/data/data_sources/history/history_data_source.dart';
-
+import '../data_sources/history/history_data_source.dart';
 import '../models/history_model.dart';
 import '../models/paginable_model.dart';
 import '../models/word_model.dart';

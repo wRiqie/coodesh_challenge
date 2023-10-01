@@ -1,4 +1,4 @@
-import 'package:english_dictionary/app/data/data_sources/favorite/favorite_data_source.dart';
+import '../data_sources/favorite/favorite_data_source.dart';
 
 import '../models/favorite_model.dart';
 import '../models/paginable_model.dart';

@@ -1,5 +1,4 @@
-import 'package:english_dictionary/app/data/models/register_model.dart';
-
+import '../../models/register_model.dart';
 import '../../models/session_model.dart';
 import 'auth_data_source.dart';
 

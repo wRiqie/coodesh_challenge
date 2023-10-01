@@ -1,9 +1,9 @@
-import 'package:english_dictionary/app/core/assets.dart';
-import 'package:english_dictionary/app/core/extensions.dart';
-import 'package:english_dictionary/app/core/helpers/preferences_helper.dart';
-import 'package:english_dictionary/app/core/mixins/validators_mixin.dart';
-import 'package:english_dictionary/app/routes/app_routes.dart';
-import 'package:english_dictionary/app/ui/widgets/loader_widget.dart';
+import '../../core/assets.dart';
+import '../../core/extensions.dart';
+import '../../core/helpers/preferences_helper.dart';
+import '../../core/mixins/validators_mixin.dart';
+import '../../routes/app_routes.dart';
+import '../widgets/loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';

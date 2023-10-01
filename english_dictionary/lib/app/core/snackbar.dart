@@ -1,5 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:english_dictionary/app/core/constants.dart';
+import 'constants.dart';
 import 'package:flutter/material.dart';
 
 abstract class _BaseSnackbar {

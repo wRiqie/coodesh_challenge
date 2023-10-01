@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 import '../../../core/constants.dart';
 import '../../adapters/dio_error_adapter.dart';
 import 'http_service.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class HttpServiceDioImp implements HttpService {
   Dio _dio({

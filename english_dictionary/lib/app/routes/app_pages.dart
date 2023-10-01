@@ -1,12 +1,12 @@
-import 'package:english_dictionary/app/ui/screens/dashboard_screen.dart';
-import 'package:english_dictionary/app/ui/screens/favorites_screen.dart';
-import 'package:english_dictionary/app/ui/screens/history_screen.dart';
-import 'package:english_dictionary/app/ui/screens/home_screen.dart';
-import 'package:english_dictionary/app/ui/screens/prepare_screen.dart';
-import 'package:english_dictionary/app/ui/screens/signin_screen.dart';
-import 'package:english_dictionary/app/ui/screens/signup_screen.dart';
-import 'package:english_dictionary/app/ui/screens/splash_screen.dart';
-import 'package:english_dictionary/app/ui/screens/word_info_screen.dart';
+import '../ui/screens/dashboard_screen.dart';
+import '../ui/screens/favorites_screen.dart';
+import '../ui/screens/history_screen.dart';
+import '../ui/screens/home_screen.dart';
+import '../ui/screens/prepare_screen.dart';
+import '../ui/screens/signin_screen.dart';
+import '../ui/screens/signup_screen.dart';
+import '../ui/screens/splash_screen.dart';
+import '../ui/screens/word_info_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'app_routes.dart';

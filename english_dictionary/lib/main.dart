@@ -1,4 +1,4 @@
-import 'package:english_dictionary/app_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -6,8 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'app/core/helpers/preferences_helper.dart';
 import 'app/core/helpers/session_helper.dart';
 import 'app/core/inject.dart';
-
-import 'package:firebase_core/firebase_core.dart';
+import 'app_widget.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {

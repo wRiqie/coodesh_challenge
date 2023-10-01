@@ -1,13 +1,13 @@
-import 'package:english_dictionary/app/routes/app_routes.dart';
-import 'package:english_dictionary/app/ui/screens/favorites_screen.dart';
-import 'package:english_dictionary/app/ui/screens/history_screen.dart';
-import 'package:english_dictionary/app/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../core/helpers/dialog_helper.dart';
 import '../../core/helpers/session_helper.dart';
 import '../../data/repositories/auth_repository.dart';
+import '../../routes/app_routes.dart';
+import 'favorites_screen.dart';
+import 'history_screen.dart';
+import 'home_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});

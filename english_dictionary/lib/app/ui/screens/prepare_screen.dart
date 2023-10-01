@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:english_dictionary/app/core/constants.dart';
-import 'package:english_dictionary/app/data/repositories/word_repository.dart';
-import 'package:english_dictionary/app/routes/app_routes.dart';
+import '../../core/constants.dart';
+import '../../data/repositories/word_repository.dart';
+import '../../routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 

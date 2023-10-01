@@ -1,7 +1,7 @@
-import 'package:english_dictionary/app/data/data_sources/history/history_data_source.dart';
-import 'package:english_dictionary/app/data/models/history_model.dart';
-import 'package:english_dictionary/app/data/models/word_model.dart';
-import 'package:english_dictionary/app/data/services/local_db_service.dart';
+import 'history_data_source.dart';
+import '../../models/history_model.dart';
+import '../../models/word_model.dart';
+import '../../services/local_db_service.dart';
 
 import '../../models/paginable_model.dart';
 

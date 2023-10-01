@@ -1,11 +1,11 @@
-import 'package:english_dictionary/app/core/helpers/session_helper.dart';
-import 'package:english_dictionary/app/core/helpers/word_helper.dart';
-import 'package:english_dictionary/app/data/models/paginable_model.dart';
-import 'package:english_dictionary/app/data/models/word_model.dart';
-import 'package:english_dictionary/app/data/repositories/word_repository.dart';
-import 'package:english_dictionary/app/ui/widgets/empty_placeholder_widget.dart';
-import 'package:english_dictionary/app/ui/widgets/search_field_widget.dart';
-import 'package:english_dictionary/app/ui/widgets/word_tile_widget.dart';
+import '../../core/helpers/session_helper.dart';
+import '../../core/helpers/word_helper.dart';
+import '../../data/models/paginable_model.dart';
+import '../../data/models/word_model.dart';
+import '../../data/repositories/word_repository.dart';
+import '../widgets/empty_placeholder_widget.dart';
+import '../widgets/search_field_widget.dart';
+import '../widgets/word_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 

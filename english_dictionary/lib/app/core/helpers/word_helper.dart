@@ -1,4 +1,4 @@
-import 'package:english_dictionary/app/core/helpers/session_helper.dart';
+import 'session_helper.dart';
 import '../../data/models/favorite_model.dart';
 import '../../data/models/history_model.dart';
 import '../../data/models/word_model.dart';

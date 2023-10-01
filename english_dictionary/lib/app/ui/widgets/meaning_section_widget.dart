@@ -1,4 +1,4 @@
-import 'package:english_dictionary/app/data/models/word_info_model.dart';
+import '../../data/models/word_info_model.dart';
 import 'package:flutter/material.dart';
 
 class MeaningSectionWidget extends StatelessWidget {

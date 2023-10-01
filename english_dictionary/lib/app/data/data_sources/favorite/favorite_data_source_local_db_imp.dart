@@ -1,8 +1,8 @@
-import 'package:english_dictionary/app/data/data_sources/favorite/favorite_data_source.dart';
-import 'package:english_dictionary/app/data/models/word_model.dart';
-import 'package:english_dictionary/app/data/models/paginable_model.dart';
-import 'package:english_dictionary/app/data/models/favorite_model.dart';
-import 'package:english_dictionary/app/data/services/local_db_service.dart';
+import 'favorite_data_source.dart';
+import '../../models/word_model.dart';
+import '../../models/paginable_model.dart';
+import '../../models/favorite_model.dart';
+import '../../services/local_db_service.dart';
 
 class FavoriteDataSourceLocalDbImp implements FavoriteDataSource {
   final LocalDbService _localDbService;

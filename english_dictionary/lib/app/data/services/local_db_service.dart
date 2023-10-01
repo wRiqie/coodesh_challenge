@@ -1,7 +1,7 @@
-import 'package:english_dictionary/app/data/models/favorite_model.dart';
-import 'package:english_dictionary/app/data/models/history_model.dart';
-import 'package:english_dictionary/app/data/models/paginable_model.dart';
-import 'package:english_dictionary/app/data/models/word_model.dart';
+import '../models/favorite_model.dart';
+import '../models/history_model.dart';
+import '../models/paginable_model.dart';
+import '../models/word_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

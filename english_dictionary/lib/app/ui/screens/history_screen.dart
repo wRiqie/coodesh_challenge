@@ -1,6 +1,6 @@
-import 'package:english_dictionary/app/core/extensions.dart';
-import 'package:english_dictionary/app/core/helpers/dialog_helper.dart';
-import 'package:english_dictionary/app/data/repositories/history_repository.dart';
+import '../../core/extensions.dart';
+import '../../core/helpers/dialog_helper.dart';
+import '../../data/repositories/history_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';

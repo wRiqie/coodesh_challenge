@@ -1,8 +1,8 @@
-import 'package:english_dictionary/app/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../core/assets.dart';
+import '../../core/extensions.dart';
 
 class EmptyPlaceholderWidget extends StatelessWidget {
   const EmptyPlaceholderWidget({super.key});

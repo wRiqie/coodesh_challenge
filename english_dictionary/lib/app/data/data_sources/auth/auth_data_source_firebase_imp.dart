@@ -1,8 +1,8 @@
-import 'package:english_dictionary/app/core/constants.dart';
-import 'package:english_dictionary/app/data/data_sources/auth/auth_data_source.dart';
-import 'package:english_dictionary/app/data/models/error_model.dart';
-import 'package:english_dictionary/app/data/models/session_model.dart';
-import 'package:english_dictionary/app/data/models/register_model.dart';
+import '../../../core/constants.dart';
+import 'auth_data_source.dart';
+import '../../models/error_model.dart';
+import '../../models/session_model.dart';
+import '../../models/register_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthDataSourceFirebaseImp implements AuthDataSource {

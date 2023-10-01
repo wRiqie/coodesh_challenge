@@ -1,8 +1,8 @@
-import 'package:english_dictionary/app/data/data_sources/auth/auth_data_source.dart';
-import 'package:english_dictionary/app/data/models/default_response_model.dart';
-import 'package:english_dictionary/app/data/models/register_model.dart';
-import 'package:english_dictionary/app/data/models/session_model.dart';
-import 'package:english_dictionary/app/data/services/execute_service.dart';
+import '../data_sources/auth/auth_data_source.dart';
+import '../models/default_response_model.dart';
+import '../models/register_model.dart';
+import '../models/session_model.dart';
+import '../services/execute_service.dart';
 
 class AuthRepository {
   final AuthDataSource _authDataSource;

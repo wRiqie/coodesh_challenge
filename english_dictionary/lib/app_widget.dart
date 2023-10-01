@@ -1,6 +1,6 @@
-import 'package:english_dictionary/app/core/theme/app_theme.dart';
-import 'package:english_dictionary/app/routes/app_pages.dart';
-import 'package:english_dictionary/app/routes/app_routes.dart';
+import 'app/core/theme/app_theme.dart';
+import 'app/routes/app_pages.dart';
+import 'app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class AppWidget extends StatelessWidget {
@@ -11,8 +11,6 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'English Dictionary',
-      // theme: appTheme,
-      // home: const SplashScreen()
       theme: appTheme,
       routes: AppPages.values,
       initialRoute: AppRoutes.splash,

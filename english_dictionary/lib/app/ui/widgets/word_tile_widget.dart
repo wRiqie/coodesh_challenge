@@ -1,7 +1,7 @@
-import 'package:english_dictionary/app/core/snackbar.dart';
-import 'package:english_dictionary/app/data/models/word_info_args.dart';
-import 'package:english_dictionary/app/data/models/word_model.dart';
-import 'package:english_dictionary/app/routes/app_routes.dart';
+import '../../core/snackbar.dart';
+import '../../data/models/word_info_args.dart';
+import '../../data/models/word_model.dart';
+import '../../routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 

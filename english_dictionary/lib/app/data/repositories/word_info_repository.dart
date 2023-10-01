@@ -1,7 +1,7 @@
-import 'package:english_dictionary/app/data/data_sources/word_info/word_info_data_source.dart';
-import 'package:english_dictionary/app/data/models/default_response_model.dart';
-import 'package:english_dictionary/app/data/models/word_info_model.dart';
-import 'package:english_dictionary/app/data/services/execute_service.dart';
+import '../data_sources/word_info/word_info_data_source.dart';
+import '../models/default_response_model.dart';
+import '../models/word_info_model.dart';
+import '../services/execute_service.dart';
 
 class WordInfoRepository {
   final WordInfoDataSource _wordDataSource;
