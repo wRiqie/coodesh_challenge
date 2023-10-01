@@ -81,4 +81,6 @@ Este aplicativo foi desenvolvido como parte de um desafio pela Coodesh. O desafi
 ## Links úteis
 - __Figma__: https://www.figma.com/file/mLeymAfyGiARjtd6NX5BWD/English-Dictionary?type=design&node-id=1%3A3&mode=design&t=1CarDZzYOcRd3wlK-1
 
+- __Apresentação__: https://www.loom.com/share/299c334bd5c54cfeba3cc3a82efe1c17?sid=d881686a-0b50-4c2d-bcb6-d79b1d59a6f1
+
 > __This is a challenge by Coodesh__
