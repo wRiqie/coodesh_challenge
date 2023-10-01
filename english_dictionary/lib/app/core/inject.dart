@@ -1,3 +1,4 @@
+import 'package:english_dictionary/app/core/helpers/json_helper.dart';
 import 'package:english_dictionary/app/core/helpers/word_helper.dart';
 import 'package:english_dictionary/app/data/data_sources/auth/auth_data_source.dart';
 import 'package:english_dictionary/app/data/data_sources/auth/auth_data_source_firebase_imp.dart';
@@ -47,7 +48,7 @@ class Inject {
     getIt.registerLazySingleton<AuthDataSource>(
         () => AuthDataSourceFirebaseImp(FirebaseAuth.instance));
     getIt.registerLazySingleton<WordDataSource>(
-        () => WordDataSourceLocalDbImp(getIt(), getIt()));
+        () => WordDataSourceLocalDbImp(getIt(), JsonHelper.instance));
     getIt.registerLazySingleton<WordInfoDataSource>(
         () => WordInfoDataSourceApiImp(getIt()));
     getIt.registerLazySingleton<FavoriteDataSource>(
