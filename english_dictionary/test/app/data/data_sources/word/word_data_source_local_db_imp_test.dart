@@ -16,7 +16,7 @@ class JsonHelperMock extends Mock implements JsonHelper {}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  group('WordDataSourceLocalDbImp Tests', () {
+  group('[WordDataSourceLocalDbImp Tests]', () {
     late LocalDbServiceMock localDbServiceMock;
     late JsonHelper jsonHelperMock;
     late WordDataSource wordDataSource;
