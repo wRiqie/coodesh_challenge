@@ -8,10 +8,8 @@ import 'package:get_it/get_it.dart';
 import '../../core/assets.dart';
 import '../../core/helpers/session_helper.dart';
 import '../../core/helpers/word_helper.dart';
-import '../../data/models/favorite_model.dart';
 import '../../data/models/paginable_model.dart';
 import '../../data/models/word_model.dart';
-import '../../data/repositories/favorite_repository.dart';
 import '../widgets/search_field_widget.dart';
 import '../widgets/word_tile_widget.dart';
 

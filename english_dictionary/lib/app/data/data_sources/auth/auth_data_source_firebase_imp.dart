@@ -43,8 +43,6 @@ class AuthDataSourceFirebaseImp implements AuthDataSource {
       var user = response.user;
 
       if (user != null) {
-        // TODO adicionar foto de usuário
-
         await user.updateDisplayName(registerInfo.name);
 
         return SessionModel(
