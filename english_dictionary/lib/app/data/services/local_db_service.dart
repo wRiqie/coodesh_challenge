@@ -92,6 +92,10 @@ class LocalDbService {
       sql.write(" $operation WRD.$_wordText LIKE '$query%' ");
       operation = 'AND';
     }
+    if (onlyFavorited) {
+      sql.write(" ORDER BY WRD.$_wordId DESC ");
+    }
+
     sql.write(" LIMIT $limit ");
     sql.write(" OFFSET $offset ");
 

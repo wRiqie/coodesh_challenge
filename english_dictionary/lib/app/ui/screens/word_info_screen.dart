@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:english_dictionary/app/core/helpers/word_helper.dart';
 import 'package:english_dictionary/app/core/snackbar.dart';
 import 'package:english_dictionary/app/data/models/word_info_args.dart';
 import 'package:english_dictionary/app/data/models/word_info_model.dart';
+import 'package:english_dictionary/app/data/models/word_model.dart';
 import 'package:english_dictionary/app/data/repositories/word_info_repository.dart';
 import 'package:english_dictionary/app/ui/widgets/meaning_section_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +21,10 @@ class WordInfoScreen extends StatefulWidget {
 
 class _WordInfoScreenState extends State<WordInfoScreen> {
   final wordInfoRepository = GetIt.I<WordInfoRepository>();
+  final wordHelper = GetIt.I<WordHelper>();
   List<WordInfoModel> wordInfos = [];
-
   int currentInfo = 0;
+  WordModel? word;
 
   final isLoading = ValueNotifier(false);
 
@@ -61,6 +64,21 @@ class _WordInfoScreenState extends State<WordInfoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Word Info'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              if (word != null) {
+                await wordHelper.toggleFavorite(word!);
+                setState(() {
+                  word!.isFavorited = !word!.isFavorited;
+                });
+              }
+            },
+            icon: Icon((word?.isFavorited ?? false)
+                ? Icons.favorite
+                : Icons.favorite_outline),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -268,10 +286,10 @@ class _WordInfoScreenState extends State<WordInfoScreen> {
 
   void loadWordInfo() async {
     final args = ModalRoute.of(context)?.settings.arguments as WordInfoArgs;
-    final word = args.word;
+    word = args.word;
 
     isLoading.value = true;
-    final response = await wordInfoRepository.getInfoByWord(word.text);
+    final response = await wordInfoRepository.getInfoByWord(word?.text ?? '');
     if (response.isSuccess) {
       if ((response.data ?? []).isEmpty) {
         if (context.mounted) {
