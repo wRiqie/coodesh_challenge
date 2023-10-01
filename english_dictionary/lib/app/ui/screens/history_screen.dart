@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../../core/extensions.dart';
 import '../../core/helpers/dialog_helper.dart';
 import '../../data/repositories/history_repository.dart';
@@ -30,14 +32,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
   final searchCtrl = TextEditingController();
 
   final words = PaginableModel<WordModel>.clean();
-  final isLoading = ValueNotifier<bool>(false);
+  final isLoading = ValueNotifier<bool>(true);
   final loadingMore = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
     scrollController.addListener(scrollListener);
-    getWords(true);
+    scheduleMicrotask(() {
+      getWords(true);
+    });
   }
 
   @override

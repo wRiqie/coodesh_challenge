@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../../core/helpers/session_helper.dart';
 import '../../core/helpers/word_helper.dart';
 import '../../data/models/paginable_model.dart';
@@ -26,14 +28,16 @@ class _HomeScreenState extends State<HomeScreen> {
   final searchCtrl = TextEditingController();
 
   final words = PaginableModel<WordModel>.clean();
-  final isLoading = ValueNotifier<bool>(false);
+  final isLoading = ValueNotifier<bool>(true);
   final loadingMore = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
     scrollController.addListener(scrollListener);
-    getWords(true);
+    scheduleMicrotask(() {
+      getWords(true);
+    });
   }
 
   @override
@@ -137,10 +141,10 @@ class _HomeScreenState extends State<HomeScreen> {
       offset: words.length,
       userId: sessionHelper.actualSession?.id ?? '',
     );
+    words.totalItemsCount = response.totalItemsCount;
     setState(() {
       words.items.addAll(response.items);
     });
-    words.totalItemsCount = response.totalItemsCount;
     isLoading.value = false;
   }
 

@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:english_dictionary/app/ui/widgets/empty_placeholder_widget.dart';
+
 import '../../core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,14 +33,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   final searchCtrl = TextEditingController();
 
   final words = PaginableModel<WordModel>.clean();
-  final isLoading = ValueNotifier<bool>(false);
+  final isLoading = ValueNotifier<bool>(true);
   final loadingMore = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
     scrollController.addListener(scrollListener);
-    getWords(true);
+    scheduleMicrotask(() {
+      getWords(true);
+    });
   }
 
   @override
@@ -82,46 +88,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           ),
                         )
                       : !isLoading.value
-                          ? Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                      height:
-                                          MediaQuery.of(context).width * .35,
-                                      child: SvgPicture.asset(Assets.empty)),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                        text:
-                                            'No words found, try searching for other terms like ',
-                                        style: TextStyle(
-                                          color: colorScheme.onBackground,
-                                          fontSize: 14,
-                                          fontFamily: 'Inter',
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: '"Hello"',
-                                            style: TextStyle(
-                                                color: colorScheme.primary),
-                                          ),
-                                          const TextSpan(
-                                            text: ' or ',
-                                          ),
-                                          TextSpan(
-                                            text: '"Work"',
-                                            style: TextStyle(
-                                                color: colorScheme.primary),
-                                          ),
-                                        ]),
-                                  ),
-                                ],
-                              ),
-                            )
+                          ? const Center(child: EmptyPlaceholderWidget())
                           : Container(),
                 ),
                 ValueListenableBuilder(

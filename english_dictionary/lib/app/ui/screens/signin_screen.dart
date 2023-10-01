@@ -137,43 +137,29 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
                             ],
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ValueListenableBuilder(
-                              valueListenable: rememberMe,
-                              builder: (context, value, child) {
-                                return Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 16,
-                                      child: Checkbox(
-                                        value: value,
-                                        onChanged: (val) {
-                                          _toggleRememberMe(value: val);
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    GestureDetector(
-                                        onTap: _toggleRememberMe,
-                                        child: const Text('Remember me')),
-                                  ],
-                                );
-                              },
-                            ),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Forgot password?',
-                                style: TextStyle(
-                                  color: colorScheme.primary,
+                        ValueListenableBuilder(
+                          valueListenable: rememberMe,
+                          builder: (context, value, child) {
+                            return Row(
+                              children: [
+                                SizedBox(
+                                  width: 16,
+                                  child: Checkbox(
+                                    value: value,
+                                    onChanged: (val) {
+                                      _toggleRememberMe(value: val);
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ],
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                GestureDetector(
+                                    onTap: _toggleRememberMe,
+                                    child: const Text('Remember me')),
+                              ],
+                            );
+                          },
                         ),
                         const SizedBox(
                           height: 12,
