@@ -75,8 +75,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void signOut() async {
     DialogHelper().showDecisionDialog(
       context,
-      title: 'Encerrar sessão',
-      content: 'Tem certeza que deseja encerrar sua sessão?',
+      title: 'End session',
+      content: 'Are you sure you want to end your session?',
       onConfirm: () async {
         _clearSession();
         if (context.mounted) {

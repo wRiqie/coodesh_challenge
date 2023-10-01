@@ -184,12 +184,13 @@ class LocalDbService {
     sql.write(" FROM $_wordTable WRD ");
     sql.write(" INNER JOIN $_historyTable HIS ");
     sql.write(" ON HIS.$_historyWordId = WRD.$_wordId ");
-    sql.write(" AND FAV.$_historyUserId = '$userId' ");
+    sql.write(" AND HIS.$_historyUserId = '$userId' ");
     var operation = 'WHERE';
     if (query.trim().isNotEmpty) {
       sql.write(" $operation WRD.$_wordText LIKE '$query%' ");
       operation = 'AND';
     }
+    sql.write(" ORDER BY HIS.$_historyDisplayDate DESC ");
     sql.write(" LIMIT $limit ");
     sql.write(" OFFSET $offset ");
 

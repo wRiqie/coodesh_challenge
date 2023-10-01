@@ -27,7 +27,13 @@ class PaginableModel<T> {
   int get length => items.length;
 
   bool get isNotEmpty => items.isNotEmpty;
+
   bool get isEmpty => items.isEmpty;
+
+  void remove(T data) {
+    var result = items.remove(data);
+    if (result) totalItemsCount--;
+  }
 
   void clear() {
     items.clear();

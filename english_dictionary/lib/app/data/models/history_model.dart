@@ -16,16 +16,7 @@ class HistoryModel {
       'id': '$userId$wordId',
       'wordId': wordId,
       'userId': userId,
-      'displayDate': displayDate.millisecondsSinceEpoch,
+      'displayDate': displayDate.toString(),
     };
-  }
-
-  factory HistoryModel.fromMap(Map<String, dynamic> map) {
-    return HistoryModel(
-      id: map['id'],
-      wordId: map['wordId'],
-      userId: map['userId'],
-      displayDate: DateTime.fromMillisecondsSinceEpoch(map['displayDate']),
-    );
   }
 }

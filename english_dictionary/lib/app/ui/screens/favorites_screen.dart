@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../core/assets.dart';
 import '../../core/helpers/session_helper.dart';
+import '../../core/helpers/word_helper.dart';
 import '../../data/models/favorite_model.dart';
 import '../../data/models/paginable_model.dart';
 import '../../data/models/word_model.dart';
@@ -22,6 +23,7 @@ class FavoritesScreen extends StatefulWidget {
 class _FavoritesScreenState extends State<FavoritesScreen> {
   final favoriteRepository = GetIt.I<FavoriteRepository>();
   final sessionHelper = GetIt.I<SessionHelper>();
+  final wordHelper = GetIt.I<WordHelper>();
 
   final scrollController = ScrollController();
 
@@ -74,6 +76,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                               return WordTileWidget(
                                 word: e,
                                 onFavorite: () => onFavorite(e),
+                                onView: () => onView(e),
                               );
                             }).toList(),
                           ),
@@ -187,21 +190,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Future<void> onFavorite(WordModel word) async {
-    if (word.isFavorited) {
-      var userId = sessionHelper.actualSession?.id;
-      await favoriteRepository.deleteFavoriteByWordIdAndUserId(
-          word.id, userId ?? '');
-    } else {
-      final favorite = FavoriteModel(
-        userId: sessionHelper.actualSession?.id,
-        wordId: word.id,
-      );
-
-      await favoriteRepository.saveFavorite(favorite);
-    }
+    await wordHelper.toggleFavorite(word);
 
     setState(() {
       word.isFavorited = !word.isFavorited;
     });
+  }
+
+  Future<void> onView(WordModel word) {
+    return wordHelper.addToHistory(word);
   }
 }

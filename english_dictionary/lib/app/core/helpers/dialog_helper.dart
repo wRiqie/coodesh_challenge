@@ -40,14 +40,17 @@ class DialogHelper {
               const SizedBox(
                 height: 20,
               ),
-              Text(
-                content,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onBackground
-                      .withOpacity(0.7),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Text(
+                  content,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.7),
+                  ),
                 ),
               ),
               const SizedBox(
