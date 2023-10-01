@@ -8,4 +8,5 @@ class AppRoutes {
   static const home = '/home';
   static const history = '/history';
   static const favorites = '/favorites';
+  static const wordInfo = '/word-info';
 }

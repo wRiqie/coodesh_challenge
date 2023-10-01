@@ -7,6 +7,7 @@ import 'package:english_dictionary/app/ui/widgets/loader_widget.dart';
 import 'package:english_dictionary/app/ui/widgets/title_wrapper_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 import '../../data/repositories/auth_repository.dart';
 
@@ -73,6 +74,7 @@ class _SignupScreenState extends State<SignupScreen> with ValidatorsMixin {
                       title: 'Nome',
                       child: TextFormField(
                         controller: nameCtrl,
+                        textCapitalization: TextCapitalization.words,
                         decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.person),
                           hintText: 'Digit a name',
@@ -106,7 +108,7 @@ class _SignupScreenState extends State<SignupScreen> with ValidatorsMixin {
                       valueListenable: obscurePass,
                       builder: (context, value, child) {
                         return TitleWrapperWidget(
-                          title: 'Senha',
+                          title: 'Password',
                           child: TextFormField(
                             controller: passwordCtrl,
                             obscureText: obscurePass.value,
@@ -139,7 +141,7 @@ class _SignupScreenState extends State<SignupScreen> with ValidatorsMixin {
                       valueListenable: obscureConfPass,
                       builder: (context, value, child) {
                         return TitleWrapperWidget(
-                          title: 'Confirmar Senha',
+                          title: 'Confirm password',
                           child: TextFormField(
                             controller: confirmPassCtrl,
                             obscureText: value,
@@ -188,7 +190,17 @@ class _SignupScreenState extends State<SignupScreen> with ValidatorsMixin {
   void _signup() async {
     if (!(formKey.currentState?.validate() ?? false)) return;
     if (passwordCtrl.text != confirmPassCtrl.text) {
-      AlertSnackbar(context, message: 'The passwords don\'t match');
+      if (context.mounted) {
+        AlertSnackbar(context, message: 'The passwords don\'t match');
+      }
+      return;
+    }
+    if (!(await checkConnection())) {
+      if (context.mounted) {
+        AlertSnackbar(context,
+            message:
+                'You need to be connected to the internet, check your connection');
+      }
       return;
     }
 
@@ -214,5 +226,10 @@ class _SignupScreenState extends State<SignupScreen> with ValidatorsMixin {
     }
 
     isLoading.value = false;
+  }
+
+  Future<bool> checkConnection() {
+    var checker = InternetConnectionCheckerPlus.createInstance();
+    return checker.hasConnection;
   }
 }

@@ -24,20 +24,6 @@ abstract class _BaseSnackbar {
       borderRadius: BorderRadius.circular(4),
       duration: const Duration(seconds: 3),
     ).show(context);
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   SnackBar(
-    //     backgroundColor: backgroundColor,
-    //     margin: const EdgeInsets.all(8),
-    //     content: Text(
-    //       message,
-    //       style: TextStyle(color: textColor),
-    //     ),
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(4),
-    //     ),
-    //     duration: const Duration(seconds: 3),
-    //   ),
-    // );
   }
 
   void _closeCurrent() {
@@ -57,7 +43,11 @@ class SuccessSnackbar extends _BaseSnackbar {
           message: message,
           backgroundColor: const Color.fromARGB(255, 102, 140, 99),
           textColor: const Color.fromARGB(255, 255, 255, 255),
-          icon: icon,
+          icon: icon ??
+              const Icon(
+                Icons.check,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
         );
 }
 
@@ -73,7 +63,11 @@ class AlertSnackbar extends _BaseSnackbar {
           message: message,
           backgroundColor: Colors.orange,
           textColor: const Color.fromARGB(255, 255, 255, 255),
-          icon: icon,
+          icon: icon ??
+              const Icon(
+                Icons.warning,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
         );
 }
 
@@ -89,6 +83,10 @@ class ErrorSnackbar extends _BaseSnackbar {
           message: message ?? Constants.defaultError,
           backgroundColor: const Color(0xFFF64343),
           textColor: const Color(0xFFFCFCFC),
-          icon: icon,
+          icon: icon ??
+              const Icon(
+                Icons.error,
+                color: Color(0xFFFCFCFC),
+              ),
         );
 }

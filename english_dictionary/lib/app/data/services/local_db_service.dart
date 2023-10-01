@@ -1,4 +1,5 @@
 import 'package:english_dictionary/app/data/models/favorite_model.dart';
+import 'package:english_dictionary/app/data/models/history_model.dart';
 import 'package:english_dictionary/app/data/models/paginable_model.dart';
 import 'package:english_dictionary/app/data/models/word_model.dart';
 import 'package:path/path.dart';
@@ -34,6 +35,7 @@ class LocalDbService {
   Future<void> _createTables(Database db) async {
     await db.execute(_createTableWord);
     await db.execute(_createTableFavorite);
+    await db.execute(_createTableHistory);
   }
 
   Future<int> getTableCount(String table, {String? condition}) async {
@@ -71,28 +73,6 @@ class LocalDbService {
     await batch.commit(noResult: true, continueOnError: true);
   }
 
-  // Future<int> updateWord(WordModel word) async {
-  //   final db = await database;
-  //   var sql = StringBuffer();
-  //   sql.write(" UPDATE word SET text = '${word.text}', ");
-  //   sql.write(" isFavorited = ${word.isFavorited ? 1 : 0} ");
-  //   sql.write(" WHERE $_wordId = ${word.id} ");
-
-  //   return db.rawUpdate(sql.toString());
-  // }
-
-  /*
-    SELECT
-    $_wordTable.$_wordId,
-    $_wordTable.$_wordText,
-    CASE
-      WHEN $_favoriteTable.$_favoriteId IS NOT NULL THEN 1
-      ELSE 0
-    END AS isFavorited
-  FROM $_wordTable
-  LEFT JOIN $_favoriteTable ON $_wordTable.$_wordId = $_favoriteTable.$_favoriteWordId;
-  */
-
   Future<PaginableModel<WordModel>> getWords(String query, int? limit,
       int? offset, bool onlyFavorited, String userId) async {
     final db = await database;
@@ -112,10 +92,6 @@ class LocalDbService {
       sql.write(" $operation WRD.$_wordText LIKE '$query%' ");
       operation = 'AND';
     }
-    if (onlyFavorited) {
-      sql.write(" $operation FAV.$_favoriteUserId = '$userId' ");
-      operation = 'AND';
-    }
     sql.write(" LIMIT $limit ");
     sql.write(" OFFSET $offset ");
 
@@ -126,7 +102,17 @@ class LocalDbService {
 
     return PaginableModel(
       items: words,
-      totalItemsCount: await getTableCount(_wordTable),
+      totalItemsCount: await getTableCount(
+        '$_wordTable WRD',
+        condition: onlyFavorited
+            ? '''
+          INNER JOIN $_favoriteTable FAV
+          ON FAV.$_favoriteWordId = WRD.$_wordId
+          AND FAV.$_favoriteUserId = '$userId'
+          WHERE FAV.$_favoriteUserId = '$userId'
+        '''
+            : null,
+      ),
     );
   }
 
@@ -160,5 +146,81 @@ class LocalDbService {
     await db.delete(_favoriteTable,
         where: '$_favoriteWordId = ? AND $_favoriteUserId = ?',
         whereArgs: [wordId, userId]);
+  }
+
+  // History
+  static const _historyTable = 'history';
+  static const _historyId = 'id';
+  static const _historyWordId = 'wordId';
+  static const _historyUserId = 'userId';
+  static const _historyDisplayDate = 'displayDate';
+
+  static const _createTableHistory = """
+    CREATE TABLE IF NOT EXISTS $_historyTable(
+      $_historyId TEXT NOT NULL PRIMARY KEY,
+      $_historyWordId INTEGER,
+      $_historyUserId TEXT,
+      $_historyDisplayDate TEXT
+    );
+  """;
+
+  Future<void> saveHistory(HistoryModel history) async {
+    final db = await database;
+
+    await db.insert(
+      _historyTable,
+      history.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<PaginableModel<WordModel>> getHistoryWords(
+      String query, int? limit, int? offset, String userId) async {
+    final db = await database;
+
+    var sql = StringBuffer();
+    sql.write(" SELECT WRD.$_wordId, ");
+    sql.write(" WRD.$_wordText ");
+    sql.write(" FROM $_wordTable WRD ");
+    sql.write(" INNER JOIN $_historyTable HIS ");
+    sql.write(" ON HIS.$_historyWordId = WRD.$_wordId ");
+    sql.write(" AND FAV.$_historyUserId = '$userId' ");
+    var operation = 'WHERE';
+    if (query.trim().isNotEmpty) {
+      sql.write(" $operation WRD.$_wordText LIKE '$query%' ");
+      operation = 'AND';
+    }
+    sql.write(" LIMIT $limit ");
+    sql.write(" OFFSET $offset ");
+
+    var res = await db.rawQuery(sql.toString());
+
+    List<WordModel> words =
+        res.isNotEmpty ? res.map((e) => WordModel.fromMap(e)).toList() : [];
+
+    return PaginableModel(
+      items: words,
+      totalItemsCount: await getTableCount(_wordTable),
+    );
+  }
+
+  Future<void> deleteHistoryWord(int wordId, String userId) async {
+    final db = await database;
+
+    await db.delete(
+      _historyTable,
+      where: '$_historyWordId = ? AND $_historyUserId = ?',
+      whereArgs: [wordId, userId],
+    );
+  }
+
+  Future<void> deleteUserHistory(String userId) async {
+    final db = await database;
+
+    await db.delete(
+      _historyTable,
+      where: '$_historyUserId = ?',
+      whereArgs: [userId],
+    );
   }
 }

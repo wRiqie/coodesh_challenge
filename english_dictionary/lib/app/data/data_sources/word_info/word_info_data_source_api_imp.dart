@@ -8,9 +8,11 @@ class WordInfoDataSourceApiImp implements WordInfoDataSource {
   WordInfoDataSourceApiImp(this._httpService);
 
   @override
-  Future<WordInfoModel> getInfoByWord(String word) async {
+  Future<List<WordInfoModel>> getInfosByWord(String word) async {
     var response = await _httpService.get('/v2/entries/en/$word');
 
-    return WordInfoModel.fromApi(response);
+    return List<Map<String, dynamic>>.from(response)
+        .map((e) => WordInfoModel.fromApi(e))
+        .toList();
   }
 }

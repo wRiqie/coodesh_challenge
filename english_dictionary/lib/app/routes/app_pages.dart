@@ -5,6 +5,7 @@ import 'package:english_dictionary/app/ui/screens/home_screen.dart';
 import 'package:english_dictionary/app/ui/screens/signin_screen.dart';
 import 'package:english_dictionary/app/ui/screens/signup_screen.dart';
 import 'package:english_dictionary/app/ui/screens/splash_screen.dart';
+import 'package:english_dictionary/app/ui/screens/word_info_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'app_routes.dart';
@@ -18,5 +19,6 @@ class AppPages {
     AppRoutes.home: (context) => const HomeScreen(),
     AppRoutes.favorites: (context) => const FavoritesScreen(),
     AppRoutes.history: (context) => const HistoryScreen(),
+    AppRoutes.wordInfo: (context) => const WordInfoScreen(),
   };
 }

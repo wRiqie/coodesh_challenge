@@ -9,7 +9,6 @@ import '../../data/models/favorite_model.dart';
 import '../../data/models/paginable_model.dart';
 import '../../data/models/word_model.dart';
 import '../../data/repositories/favorite_repository.dart';
-import '../../data/repositories/word_repository.dart';
 import '../widgets/search_field_widget.dart';
 import '../widgets/word_tile_widget.dart';
 
@@ -159,7 +158,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   void scrollListener() async {
-    if (words.isEnd()) return;
+    if (words.isEnd) return;
     if (!loadingMore.value) {
       if (scrollController.position.pixels >=
           scrollController.position.maxScrollExtent) {

@@ -6,6 +6,7 @@ import 'package:english_dictionary/app/ui/widgets/loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 import '../../core/helpers/session_helper.dart';
 import '../../core/snackbar.dart';
@@ -240,6 +241,14 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
 
   void _signin() async {
     if (formKey.currentState?.validate() ?? false) {
+      if (!(await checkConnection())) {
+        if (context.mounted) {
+          AlertSnackbar(context,
+              message:
+                  'You need to be connected to the internet, check your connection');
+        }
+        return;
+      }
       isLoading.value = true;
       var result = await authRepository.signIn(
         emailCtrl.text,
@@ -276,5 +285,10 @@ class _SigninScreenState extends State<SigninScreen> with ValidatorsMixin {
 
   void _toggleRememberMe({bool? value}) {
     rememberMe.value = value ?? !rememberMe.value;
+  }
+
+  Future<bool> checkConnection() {
+    var checker = InternetConnectionCheckerPlus.createInstance();
+    return checker.hasConnection;
   }
 }

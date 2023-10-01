@@ -20,7 +20,7 @@ class PaginableModel<T> {
     );
   }
 
-  bool isEnd() {
+  bool get isEnd {
     return items.length >= totalItemsCount;
   }
 

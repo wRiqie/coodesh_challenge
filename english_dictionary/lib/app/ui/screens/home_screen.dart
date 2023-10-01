@@ -1,15 +1,12 @@
-import 'package:english_dictionary/app/core/assets.dart';
-import 'package:english_dictionary/app/core/extensions.dart';
 import 'package:english_dictionary/app/core/helpers/session_helper.dart';
-import 'package:english_dictionary/app/data/models/favorite_model.dart';
+import 'package:english_dictionary/app/core/helpers/word_helper.dart';
 import 'package:english_dictionary/app/data/models/paginable_model.dart';
 import 'package:english_dictionary/app/data/models/word_model.dart';
-import 'package:english_dictionary/app/data/repositories/favorite_repository.dart';
 import 'package:english_dictionary/app/data/repositories/word_repository.dart';
+import 'package:english_dictionary/app/ui/widgets/empty_placeholder_widget.dart';
 import 'package:english_dictionary/app/ui/widgets/search_field_widget.dart';
 import 'package:english_dictionary/app/ui/widgets/word_tile_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,8 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final wordRepository = GetIt.I<WordRepository>();
-  final favoriteRepository = GetIt.I<FavoriteRepository>();
   final sessionHelper = GetIt.I<SessionHelper>();
+  final wordHelper = GetIt.I<WordHelper>();
 
   final scrollController = ScrollController();
 
@@ -49,8 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Stack(
       children: [
         Scaffold(
@@ -75,51 +70,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               return WordTileWidget(
                                 word: e,
                                 onFavorite: () => onFavorite(e),
+                                onView: () => onView(e),
                               );
                             }).toList(),
                           ),
                         )
                       : !isLoading.value
-                          ? Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                      height:
-                                          MediaQuery.of(context).width * .35,
-                                      child: SvgPicture.asset(Assets.empty)),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                        text:
-                                            'No words found, try searching for other terms like ',
-                                        style: TextStyle(
-                                          color: colorScheme.onBackground,
-                                          fontSize: 14,
-                                          fontFamily: 'Inter',
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: '"Hello"',
-                                            style: TextStyle(
-                                                color: colorScheme.primary),
-                                          ),
-                                          const TextSpan(
-                                            text: ' or ',
-                                          ),
-                                          TextSpan(
-                                            text: '"Work"',
-                                            style: TextStyle(
-                                                color: colorScheme.primary),
-                                          ),
-                                        ]),
-                                  ),
-                                ],
-                              ),
-                            )
+                          ? const Center(child: EmptyPlaceholderWidget())
                           : Container(),
                 ),
                 ValueListenableBuilder(
@@ -159,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void scrollListener() async {
-    if (words.isEnd()) return;
+    if (words.isEnd) return;
     if (!loadingMore.value) {
       if (scrollController.position.pixels >=
           scrollController.position.maxScrollExtent) {
@@ -188,21 +145,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> onFavorite(WordModel word) async {
-    if (word.isFavorited) {
-      var userId = sessionHelper.actualSession?.id;
-      await favoriteRepository.deleteFavoriteByWordIdAndUserId(
-          word.id, userId ?? '');
-    } else {
-      final favorite = FavoriteModel(
-        userId: sessionHelper.actualSession?.id,
-        wordId: word.id,
-      );
-
-      await favoriteRepository.saveFavorite(favorite);
-    }
+    await wordHelper.toggleFavorite(word);
 
     setState(() {
       word.isFavorited = !word.isFavorited;
     });
+  }
+
+  Future<void> onView(WordModel word) {
+    return wordHelper.addToHistory(word);
   }
 }

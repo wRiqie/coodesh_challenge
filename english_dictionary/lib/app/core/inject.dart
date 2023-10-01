@@ -1,13 +1,17 @@
+import 'package:english_dictionary/app/core/helpers/word_helper.dart';
 import 'package:english_dictionary/app/data/data_sources/auth/auth_data_source.dart';
 import 'package:english_dictionary/app/data/data_sources/auth/auth_data_source_firebase_imp.dart';
 import 'package:english_dictionary/app/data/data_sources/favorite/favorite_data_source.dart';
 import 'package:english_dictionary/app/data/data_sources/favorite/favorite_data_source_local_db_imp.dart';
+import 'package:english_dictionary/app/data/data_sources/history/history_data_source.dart';
+import 'package:english_dictionary/app/data/data_sources/history/history_data_source_local_db_imp.dart';
 import 'package:english_dictionary/app/data/data_sources/word/word_data_source.dart';
 import 'package:english_dictionary/app/data/data_sources/word/word_data_source_local_db_imp.dart';
 import 'package:english_dictionary/app/data/data_sources/word_info/word_info_data_source.dart';
 import 'package:english_dictionary/app/data/data_sources/word_info/word_info_data_source_api_imp.dart';
 import 'package:english_dictionary/app/data/repositories/auth_repository.dart';
 import 'package:english_dictionary/app/data/repositories/favorite_repository.dart';
+import 'package:english_dictionary/app/data/repositories/history_repository.dart';
 import 'package:english_dictionary/app/data/repositories/word_info_repository.dart';
 import 'package:english_dictionary/app/data/repositories/word_repository.dart';
 import 'package:english_dictionary/app/data/services/local_db_service.dart';
@@ -48,6 +52,8 @@ class Inject {
         () => WordInfoDataSourceApiImp(getIt()));
     getIt.registerLazySingleton<FavoriteDataSource>(
         () => FavoriteDataSourceLocalDbImp(getIt()));
+    getIt.registerLazySingleton<HistoryDataSource>(
+        () => HistoryDataSourceLocalDbImp(getIt()));
 
     // Repositories
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository(getIt()));
@@ -56,5 +62,11 @@ class Inject {
         () => WordInfoRepository(getIt()));
     getIt.registerLazySingleton<FavoriteRepository>(
         () => FavoriteRepository(getIt()));
+    getIt.registerLazySingleton<HistoryRepository>(
+        () => HistoryRepository(getIt()));
+
+    // Core Helpers
+    getIt.registerLazySingleton<WordHelper>(
+        () => WordHelper(getIt(), getIt(), getIt()));
   }
 }

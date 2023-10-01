@@ -17,24 +17,16 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  late GlobalKey<NavigatorState> navigatorKey;
-
   final authRepository = GetIt.I<AuthRepository>();
   final sessionHelper = GetIt.I<SessionHelper>();
 
   var currentIndex = 1;
 
-  List<String> routes = [
-    AppRoutes.history,
-    AppRoutes.home,
-    AppRoutes.favorites
+  List<Widget> pages = [
+    const HistoryScreen(),
+    const HomeScreen(),
+    const FavoritesScreen(),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    navigatorKey = GlobalKey<NavigatorState>();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,28 +42,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-      body: Navigator(
-        key: navigatorKey,
-        onGenerateRoute: (settings) {
-          if (settings.name == AppRoutes.home || settings.name == '/') {
-            return MaterialPageRoute(
-              builder: (_) => const HomeScreen(),
-              settings: settings,
-            );
-          } else if (settings.name == AppRoutes.favorites) {
-            return MaterialPageRoute(
-              builder: (_) => const FavoritesScreen(),
-              settings: settings,
-            );
-          } else if (settings.name == AppRoutes.history) {
-            return MaterialPageRoute(
-              builder: (_) => const HistoryScreen(),
-              settings: settings,
-            );
-          }
-          return null;
-        },
-      ),
+      body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: colorScheme.surface,
         type: BottomNavigationBarType.fixed,
@@ -82,9 +53,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           setState(() {
             currentIndex = value;
           });
-          Navigator.of(navigatorKey.currentContext!).pushReplacementNamed(
-            routes[currentIndex],
-          );
         },
         items: const [
           BottomNavigationBarItem(
