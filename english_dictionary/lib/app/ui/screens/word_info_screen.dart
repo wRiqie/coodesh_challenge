@@ -152,7 +152,11 @@ class _WordInfoScreenState extends State<WordInfoScreen> {
                                 GestureDetector(
                                   onTap: wordInfo?.audioUrl != null
                                       ? () {
-                                          playWordAudio();
+                                          if (isPlaying) {
+                                            stopPlayer();
+                                          } else {
+                                            playWordAudio();
+                                          }
                                         }
                                       : null,
                                   child: Container(
