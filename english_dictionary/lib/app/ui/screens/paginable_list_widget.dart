@@ -1,27 +1,26 @@
 import 'package:english_dictionary/app/data/models/paginable_model.dart';
-import 'package:english_dictionary/app/data/models/word_model.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/empty_placeholder_widget.dart';
 
-class WordPaginableWidget extends StatefulWidget {
-  final PaginableModel<WordModel> words;
+class PaginableListWidget extends StatefulWidget {
+  final PaginableModel paginable;
   final bool isLoading;
-  final Widget Function(WordModel word) itemBuilder;
-  final Future Function(bool clear)? getWords;
-  const WordPaginableWidget({
+  final Widget Function(dynamic item) itemBuilder;
+  final Future Function(bool clear)? loadItems;
+  const PaginableListWidget({
     super.key,
-    required this.words,
-    this.getWords,
+    required this.paginable,
+    this.loadItems,
     required this.itemBuilder,
     this.isLoading = false,
   });
 
   @override
-  State<WordPaginableWidget> createState() => _WordPaginableWidgetState();
+  State<PaginableListWidget> createState() => _PaginableListWidgetState();
 }
 
-class _WordPaginableWidgetState extends State<WordPaginableWidget> {
+class _PaginableListWidgetState extends State<PaginableListWidget> {
   final scrollController = ScrollController();
   final isLoadingMore = ValueNotifier(false);
 
@@ -43,14 +42,14 @@ class _WordPaginableWidgetState extends State<WordPaginableWidget> {
     return Column(
       children: [
         Expanded(
-          child: widget.words.isNotEmpty
+          child: widget.paginable.isNotEmpty
               ? RefreshIndicator(
                   onRefresh: () async {
-                    if (widget.getWords != null) widget.getWords!(true);
+                    if (widget.loadItems != null) widget.loadItems!(true);
                   },
                   child: ListView(
                     controller: scrollController,
-                    children: widget.words.items
+                    children: widget.paginable.items
                         .map((e) => widget.itemBuilder(e))
                         .toList(),
                   ),
@@ -78,12 +77,12 @@ class _WordPaginableWidgetState extends State<WordPaginableWidget> {
   }
 
   void scrollListener() async {
-    if (widget.words.isEnd) return;
+    if (widget.paginable.isEnd) return;
     if (!isLoadingMore.value) {
       if (scrollController.position.pixels >=
           scrollController.position.maxScrollExtent) {
         isLoadingMore.value = true;
-        if (widget.getWords != null) await widget.getWords!(false);
+        if (widget.loadItems != null) await widget.loadItems!(false);
         isLoadingMore.value = false;
       }
     }

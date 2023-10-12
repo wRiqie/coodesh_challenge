@@ -1,17 +1,16 @@
 import 'dart:async';
 
-import 'package:english_dictionary/app/ui/screens/word_paginable_widget.dart';
-
 import '../../core/helpers/session_helper.dart';
 import '../../core/helpers/word_helper.dart';
 import '../../data/models/paginable_model.dart';
 import '../../data/models/word_model.dart';
 import '../../data/repositories/word_repository.dart';
-import '../widgets/empty_placeholder_widget.dart';
 import '../widgets/search_field_widget.dart';
 import '../widgets/word_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+
+import 'paginable_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,18 +24,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final sessionHelper = GetIt.I<SessionHelper>();
   final wordHelper = GetIt.I<WordHelper>();
 
-  final scrollController = ScrollController();
-
   final searchCtrl = TextEditingController();
 
   final words = PaginableModel<WordModel>.clean();
   final isLoading = ValueNotifier<bool>(true);
-  final loadingMore = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(scrollListener);
     scheduleMicrotask(() {
       getWords(true);
     });
@@ -44,9 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    scrollController.dispose();
     isLoading.dispose();
-    loadingMore.dispose();
     super.dispose();
   }
 
@@ -67,8 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 20,
                 ),
                 Expanded(
-                  child: WordPaginableWidget(
-                    words: words,
+                  child: PaginableListWidget(
+                    paginable: words,
                     itemBuilder: (word) {
                       return WordTileWidget(
                         word: word,
@@ -77,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     isLoading: isLoading.value,
-                    getWords: getWords,
+                    loadItems: getWords,
                   ),
                 ),
               ],
@@ -100,18 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
-  }
-
-  void scrollListener() async {
-    if (words.isEnd) return;
-    if (!loadingMore.value) {
-      if (scrollController.position.pixels >=
-          scrollController.position.maxScrollExtent) {
-        loadingMore.value = true;
-        await getWords(false);
-        loadingMore.value = false;
-      }
-    }
   }
 
   Future<void> getWords(bool clear) async {

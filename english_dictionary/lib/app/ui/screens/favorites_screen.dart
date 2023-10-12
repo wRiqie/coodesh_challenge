@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:english_dictionary/app/ui/widgets/empty_placeholder_widget.dart';
+import 'package:english_dictionary/app/ui/screens/paginable_list_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -25,18 +25,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   final sessionHelper = GetIt.I<SessionHelper>();
   final wordHelper = GetIt.I<WordHelper>();
 
-  final scrollController = ScrollController();
-
   final searchCtrl = TextEditingController();
 
   final words = PaginableModel<WordModel>.clean();
   final isLoading = ValueNotifier<bool>(true);
-  final loadingMore = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(scrollListener);
     scheduleMicrotask(() {
       getWords(true);
     });
@@ -44,9 +40,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   void dispose() {
-    scrollController.dispose();
     isLoading.dispose();
-    loadingMore.dispose();
     super.dispose();
   }
 
@@ -68,38 +62,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   height: 20,
                 ),
                 Expanded(
-                  child: words.isNotEmpty
-                      ? RefreshIndicator(
-                          onRefresh: () => getWords(true),
-                          child: ListView(
-                            controller: scrollController,
-                            children: words.items.map((e) {
-                              return WordTileWidget(
-                                word: e,
-                                onFavorite: () => onFavorite(e),
-                                onView: () => onView(e),
-                              );
-                            }).toList(),
-                          ),
-                        )
-                      : !isLoading.value
-                          ? const Center(child: EmptyPlaceholderWidget())
-                          : Container(),
-                ),
-                ValueListenableBuilder(
-                  valueListenable: loadingMore,
-                  builder: (context, value, child) {
-                    return Visibility(
-                      visible: value,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 12,
-                        ),
-                        child: CircularProgressIndicator(),
-                      ),
+                    child: PaginableListWidget(
+                  paginable: words,
+                  itemBuilder: (item) {
+                    return WordTileWidget(
+                      word: item,
+                      onFavorite: () => onFavorite(item),
+                      onView: () => onView(item),
                     );
                   },
-                ),
+                  isLoading: isLoading.value,
+                  loadItems: getWords,
+                )),
               ],
             ),
           ),
@@ -120,18 +94,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         ),
       ],
     );
-  }
-
-  void scrollListener() async {
-    if (words.isEnd) return;
-    if (!loadingMore.value) {
-      if (scrollController.position.pixels >=
-          scrollController.position.maxScrollExtent) {
-        loadingMore.value = true;
-        await getWords(false);
-        loadingMore.value = false;
-      }
-    }
   }
 
   Future<void> getWords(bool clear) async {
