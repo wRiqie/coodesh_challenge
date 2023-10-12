@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:english_dictionary/app/ui/screens/word_paginable_widget.dart';
+
 import '../../core/helpers/session_helper.dart';
 import '../../core/helpers/word_helper.dart';
 import '../../data/models/paginable_model.dart';
@@ -65,37 +67,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 20,
                 ),
                 Expanded(
-                  child: words.isNotEmpty
-                      ? RefreshIndicator(
-                          onRefresh: () => getWords(true),
-                          child: ListView(
-                            controller: scrollController,
-                            children: words.items.map((e) {
-                              return WordTileWidget(
-                                word: e,
-                                onFavorite: () => onFavorite(e),
-                                onView: () => onView(e),
-                              );
-                            }).toList(),
-                          ),
-                        )
-                      : !isLoading.value
-                          ? const Center(child: EmptyPlaceholderWidget())
-                          : Container(),
-                ),
-                ValueListenableBuilder(
-                  valueListenable: loadingMore,
-                  builder: (context, value, child) {
-                    return Visibility(
-                      visible: value,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 12,
-                        ),
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  },
+                  child: WordPaginableWidget(
+                    words: words,
+                    itemBuilder: (word) {
+                      return WordTileWidget(
+                        word: word,
+                        onFavorite: () => onFavorite(word),
+                        onView: () => onView(word),
+                      );
+                    },
+                    isLoading: isLoading.value,
+                    getWords: getWords,
+                  ),
                 ),
               ],
             ),

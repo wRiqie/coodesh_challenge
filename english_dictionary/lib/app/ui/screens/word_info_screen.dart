@@ -51,6 +51,7 @@ class _WordInfoScreenState extends State<WordInfoScreen> {
 
   @override
   void dispose() {
+    isLoading.dispose();
     player.dispose();
     super.dispose();
   }
