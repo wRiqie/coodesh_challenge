@@ -12,12 +12,13 @@ class AuthRepository {
   Future<DefaultResponseModel<SessionModel>> signIn(
       String email, String password) {
     return ExecuteService.tryExecuteAsync(
-        _authDataSource.signIn(email, password));
+        () => _authDataSource.signIn(email, password));
   }
 
   Future<DefaultResponseModel<SessionModel>> signUp(
       RegisterModel registerInfo) {
-    return ExecuteService.tryExecuteAsync(_authDataSource.signUp(registerInfo));
+    return ExecuteService.tryExecuteAsync(
+        () => _authDataSource.signUp(registerInfo));
   }
 
   Future<void> signOut() {

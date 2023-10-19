@@ -9,6 +9,7 @@ class WordInfoRepository {
   WordInfoRepository(this._wordDataSource);
 
   Future<DefaultResponseModel<List<WordInfoModel>>> getInfoByWord(String word) {
-    return ExecuteService.tryExecuteAsync(_wordDataSource.getInfosByWord(word));
+    return ExecuteService.tryExecuteAsync(
+        () => _wordDataSource.getInfosByWord(word));
   }
 }
