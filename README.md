@@ -11,7 +11,7 @@ Aplicativo de dicionário de palavras em inglês, com tocador de áudio
 5. [Links úteis](#links-úteis)
 
 ## Introdução
-Este aplicativo foi desenvolvido como parte de um desafio pela Coodesh. O desafio envolveu a criação de um aplicativo de listagem de palavras em inglês que oferece a capacidade de navegar por uma lista de palavras em inglês, visualizar sua fonética e significados, além de permitir a criação de listas de palavras favoritas e rastreamento de histórico de palavras visualizadas.
+Este aplicativo foi desenvolvido como parte de um desafio. O desafio envolveu a criação de um aplicativo de listagem de palavras em inglês que oferece a capacidade de navegar por uma lista de palavras em inglês, visualizar sua fonética e significados, além de permitir a criação de listas de palavras favoritas e rastreamento de histórico de palavras visualizadas.
 ## Tecnologias
 > <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" width="16" height="16"/> Flutter (Mobile)
 
